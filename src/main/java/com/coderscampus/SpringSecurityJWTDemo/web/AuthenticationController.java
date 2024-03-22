@@ -42,13 +42,13 @@ public class AuthenticationController {
 
     @GetMapping("/signin")
 	public String getLogin (@ModelAttribute("user") User user) {
-		return "login";
+		return "authenticate/login";
 	}
     
     @GetMapping("/login-error")
     public String loginError (Model model) {
     	model.addAttribute("loginError", true);
-    	return "login";
+    	return "authenticate/login";
     }
     
 

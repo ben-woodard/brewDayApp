@@ -20,6 +20,8 @@ public class UserController {
         this.userService = userService;
     }
 
+
+
     @GetMapping("/home/{userId}")
     public String getUserHomePage(@PathVariable Integer userId, ModelMap model, HttpSession httpSession) {
         User user = userService.findUserById(userId).orElse(null);

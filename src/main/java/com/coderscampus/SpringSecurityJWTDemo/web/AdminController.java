@@ -1,17 +1,14 @@
 package com.coderscampus.SpringSecurityJWTDemo.web;
 
 import com.coderscampus.SpringSecurityJWTDemo.domain.Authority;
-import com.coderscampus.SpringSecurityJWTDemo.domain.Role;
 import com.coderscampus.SpringSecurityJWTDemo.domain.User;
 import com.coderscampus.SpringSecurityJWTDemo.repository.UserRepository;
-import com.coderscampus.SpringSecurityJWTDemo.service.UserService;
 import com.coderscampus.SpringSecurityJWTDemo.service.UserServiceImpl;
 
 import jakarta.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,7 +69,7 @@ public class AdminController {
     public String getDashboard (ModelMap model) {
     	List<User> users = userService.findAll();
     	model.addAttribute("userList", users);
-    	return "dashboard";
+    	return "admin/dashboard";
     }
     
     @PostMapping("/makeAdmin")
