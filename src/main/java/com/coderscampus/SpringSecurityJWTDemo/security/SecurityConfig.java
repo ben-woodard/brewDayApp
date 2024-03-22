@@ -68,6 +68,7 @@ public class SecurityConfig {
                                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                                         .requestMatchers("/products").authenticated()
                                         .requestMatchers("/success").authenticated()
+										.requestMatchers("/home/{userId}").authenticated()
                                         .requestMatchers("/register").permitAll()
                                         .anyRequest().permitAll()
                         )
@@ -105,7 +106,7 @@ public class SecurityConfig {
 //					    	
 					    	response.addCookie(accessTokenCookie);
 							response.addCookie(refreshTokenCookie);
-					    	response.sendRedirect("/success");
+					    	response.sendRedirect("/home/"+user.getId());
 						}
 					})
 		        	.failureHandler(new AuthenticationFailureHandler() {
@@ -122,7 +123,7 @@ public class SecurityConfig {
 							logger.info("Raw password during login: " + password);
 					        logger.info("Encoded password during login: " + passwordEncoder().encode(password));
 							
-							response.sendRedirect("/error");
+							response.sendRedirect("/signin");
 						}
 					})
 		        	.permitAll();
