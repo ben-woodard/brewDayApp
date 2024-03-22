@@ -70,7 +70,7 @@ public class RegistrationController {
 	    if (existingUser.isPresent()) {
 	    	logger.error("User already exists. Redirecting to userExists.");
 	        // Redirect to the userExists page if a user with the same email exists
-	        return "redirect:/signin";
+	        return "redirect:/userExists";
 	    } else {
 	    	JwtAuthenticationResponse signupResponse = authenticationService.signup(request);
 	    	
