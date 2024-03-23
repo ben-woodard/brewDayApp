@@ -17,8 +17,9 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JsonIgnoreProperties("product")
 	private List<Recipe> recipes;
-//	@OneToMany(mappedBy = "brand", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//	private List<Batch> batches;
+	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JsonIgnoreProperties("product")
+	private List<Batch> batches;
 
 
 	public Long getProductId() {
