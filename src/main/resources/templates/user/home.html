@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+    <meta charset="UTF-8"/>
+    <title>[[${user.companyName}]]Dashboard</title>
+    <link href="" rel="stylesheet"/>
 </head>
 <body>
-<h1>home</h1>
-
+<nav>
+    <div>
+        <a href="">Batches</a>
+    </div>
+    <div>
+        <a th:href="@{/products}">Products</a>
+    </div>
+    <div>
+        <a href="">Recipes</a>
+    </div>
+    <div>
+        <a href="">Inventory</a>
+    </div>
+</nav>
+<h1 th:text="${user.companyName}"></h1>
+<section>
+    <a method="get" th:href="@{/createbatch}">Add Batch To Schedule</a>
+</section>
 <form action="/logout" method="post">
     <button type="submit">Logout</button>
 </form>
