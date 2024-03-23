@@ -23,7 +23,7 @@ public class Ingredient {
         MALT,
         HOP,
         ADJUNCT,
-        EXTRACTS,
+        EXTRACT,
         SALT
     }
     @Enumerated(EnumType.STRING)
