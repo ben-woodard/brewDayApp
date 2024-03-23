@@ -20,18 +20,41 @@ public class User implements UserDetails {
     private Integer id;
     private String firstName;
     private String lastName;
+    private String companyName;
     private String email;
     private String password;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<Authority> authorities = new ArrayList<>();
-    
-    /*
-     * enable if you want to have the confirm password to be checked in the back end + their corresponding getters and setters
-     * private String confirmPassword;
-     */
-    
-    
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JsonIgnoreProperties("user")
+    private List<Product> products;
+
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long companyId;
+//    private String companyName;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+//    @JsonIgnoreProperties("company")
+//    private List<User> users;
+
+    //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+//    @JsonIgnore
+//    private List<Message> messages = new ArrayList<>();
+
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long companyId;
+//    private String companyName;
+//    @OneToMany(mappedBy = "company", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+//    private List<Brand> brands;
+//    private String companyEmail;
+//    private String companyPassword;
+
+
+
+
+
     @Override
     public Collection<Authority> getAuthorities() {
         return authorities;
@@ -84,6 +107,11 @@ public class User implements UserDetails {
         this.firstName = firstName;
         return this;
     }
+
+    public User companyName(String companyName) {
+        this.companyName = companyName;
+        return this;
+    }
     
     public User lastName(String lastName) {
         this.lastName = lastName;
@@ -105,6 +133,11 @@ public class User implements UserDetails {
         this.password = password;
         return this;
     }
+
+//    public User products(String password) {
+//        this.password = password;
+//        return this;
+//    }
     
     public void setId(Integer id) {
         this.id = id;
@@ -134,9 +167,23 @@ public class User implements UserDetails {
         return id;
     }
 
-
     public User build () {
         return this;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }

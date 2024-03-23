@@ -55,9 +55,7 @@ public class RegistrationController {
 	@PostMapping("/register")
 	public String processRegistration(@ModelAttribute("user") User user, SignUpRequest request) {
 	    Optional<User> existingUser = userService.findUserByEmail(user.getEmail());
-		System.out.println(existingUser);
 	    String encodedPassword = passwordEncoder.encode(request.password());
-	    
 
 	    if (existingUser.isPresent()) {
 	    	logger.error("User already exists. Redirecting to userExists.");
@@ -69,10 +67,11 @@ public class RegistrationController {
 	    	logger.info("Processing registration for user: " + user.getEmail());
 	    	logger.info("Provided password during registration: " + request.password());
 	    	logger.info("Encoded password during registration: " + encodedPassword);
+			System.out.println(user.getCompanyName());
 			
 	        if (signupResponse != null) {
 	            // Successfully registered user, now proceed with authentication
-	                logger.info("Successfully registered user. Redirecting to success.");
+	                logger.info("Successfully registered user. Redirecting to signin.");
 	                return "redirect:/signin";
 	            } else {
 	                // Handle the case where authentication is not successful
@@ -85,10 +84,10 @@ public class RegistrationController {
 	/*
 	 * This code is from Trevor's original implementation which might be helpful for
 	 * those who are not using server rendering templates
-	 * 
-	 * @PostMapping("/signup") 
-	 * public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) { 
-	 * return ResponseEntity.ok(authenticationService.signup(request)); 
+	 *
+	 * @PostMapping("/signup")
+	 * public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) {
+	 * return ResponseEntity.ok(authenticationService.signup(request));
 	 * }
 	 */
 

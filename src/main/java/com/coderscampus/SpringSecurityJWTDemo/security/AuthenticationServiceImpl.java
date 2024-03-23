@@ -48,6 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .lastName(request.lastName())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
+                .companyName(request.companyName())
                 .authority(Role.USER.name()).build();
         request.authorityOpt().ifPresent(auth -> user.getAuthorities().add(new Authority(auth, user)));
         userRepository.save(user);
