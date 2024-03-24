@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Batch {
     private Product product;
     @OneToMany(mappedBy = "batch", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonIgnoreProperties("batch")
-    private List<Turn> turns;
+    private List<Turn> turns = new ArrayList<>();
 
     public Batch() {
     }

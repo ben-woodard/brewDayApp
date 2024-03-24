@@ -2,6 +2,7 @@ package com.coderscampus.brewDayApp.domain;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class Recipe {
     @JoinTable(name = "recipe_ingredient",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-    private List<Ingredient> ingredients;
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     public Recipe() {
     }

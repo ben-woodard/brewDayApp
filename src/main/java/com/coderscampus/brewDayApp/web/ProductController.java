@@ -9,9 +9,7 @@ import com.coderscampus.brewDayApp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,18 +42,23 @@ public class ProductController {
     @GetMapping("/{userId}/create")
     public String getCreateProduct(ModelMap model, @PathVariable Integer userId) {
         User user = userService.findUserById(userId).orElse(null);
-//        List<Recipe> recipes = recipeService.findAllUserRecipes(user);
+        model.put("recipe", new Recipe());
+        model.put("product", new Product());
+        return "product/create";
+    }
 
-        Product product = new Product();
-        Recipe recipe = new Recipe();
-        recipe.setRecipeName("TestRecipe");
-        recipeService.save(recipe);
-        productService.save(product);
-        product.getRecipes().add(recipe);
-        recipe.setProduct(product);
-        model.put("user", user);
+    @PostMapping("/{userId}/create")
+    public String postCreateProductByName(@ModelAttribute Product product, @PathVariable Integer userId) {
+        Product dbProduct = productService.createProductUserRelationship(product, userId);
+        return "redirect:/products/{userId}/"+dbProduct.getProductId();
+    }
+
+    @GetMapping("/{userId}/{productId}")
+    public String getProductInformation (ModelMap model, @PathVariable Long productId ) {
+        Product product = productService.findById(productId);
         model.put("product", product);
         return "product/create";
     }
+
 
 }

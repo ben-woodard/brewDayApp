@@ -20,10 +20,12 @@ public class Product {
 	private List<Recipe> recipes = new ArrayList<>();
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JsonIgnoreProperties("product")
-	private List<Batch> batches;
+	private List<Batch> batches = new ArrayList<>();
 	private String selectedRecipe;
 
-
+	public Product(String productName) {
+		this.productName = productName;
+	}
 
 	public String getSelectedRecipe() {
 		return selectedRecipe;

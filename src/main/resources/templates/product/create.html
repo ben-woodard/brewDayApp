@@ -6,20 +6,26 @@
 </head>
 <body>
 <h1>Create A New Product</h1>
-<form method="post" action="">
+<form th:if="${product.productId == null}" method="post" action="">
     <div>
         <label>Product Name:</label>
-        <input type="text" th:href="${product.productName}">
+        <input type="text" th:field="${product.productName}">
     </div>
     <div>
-        <label>Recipe:</label>
-        <select th:field="${product.selectedRecipe}">
-            <option th:each="recipe : ${product.recipes}" th:value="${recipe.recipeName}" th:text="${recipe.recipeName}"></option>
-        </select>
-        <br>
-        <a th:href="@{/recipes/{userId}/create (userId=${user.id})}">Create New Recipe</a>
+        <input type="submit" value="Create Product">
     </div>
 </form>
+<div th:unless="${product.productId == null}">
+    <h1 th:text="${product.productName}"></h1>
+    <h3>Recipes</h3>
+    <a th:href="@{/recipes/{productId}/create (productId = ${product.productId})}"></a>
+    <div th:if="${#lists.size(product.recipes) > 0}">
+        <div th:each="recipe : ${product.recipes}">
+            <span th:text="${recipe.recipeName}"></span>
+        </div>
+    </div>
+</div>
 
+<!--<script src="/js/product-create.js"></script>-->
 </body>
 </html>

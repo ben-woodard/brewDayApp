@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${product.productName}]]</title>
+</head>
+<body>
+<h1 th:text="${product.productName}"></h1>
+<h3>Recipes</h3>
+<div th:if="${#lists.size(product.recipes) > 0}">
+    <div th:each="recipe : ${product.recipes}">
+        <span th:text="${recipe.recipeName}"></span>
+    </div>
+</div>
+<
+</body>
+</html>

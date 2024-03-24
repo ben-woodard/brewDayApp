@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepo;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public ProductService(ProductRepository productRepo) {
+    public ProductService(ProductRepository productRepo, UserServiceImpl userService) {
         this.productRepo = productRepo;
+        this.userService = userService;
     }
 
     public Product save(Product product) {
@@ -32,5 +34,16 @@ public class ProductService {
                 .map(product -> product.getBatches())
                 .forEach(batches::addAll);
          return batches;
+    }
+
+    public Product createProductUserRelationship(Product product, Integer userId) {
+        User user = userService.findUserById(userId).orElse(null);
+        product.setUser(user);
+        user.getProducts().add(product);
+        return productRepo.save(product);
+    }
+
+    public Product findById(Long productId) {
+        return productRepo.findById(productId).orElse(null);
     }
 }

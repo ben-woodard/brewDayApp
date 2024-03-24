@@ -3,6 +3,7 @@ package com.coderscampus.brewDayApp.domain;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Ingredient {
     private Long ingredientId;
     private String ingredientName;
     @ManyToMany(mappedBy = "ingredients")
-    private List<Recipe> recipes;
+    private List<Recipe> recipes = new ArrayList<>();
     private BigDecimal price;
     private Double amountInStock;
     @Enumerated(EnumType.STRING)

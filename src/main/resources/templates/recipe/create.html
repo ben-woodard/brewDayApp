@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create New Recipe</title>
+    <title>[[product.productName]] New Recipe</title>
 </head>
 <body>
 <h1>Create A new Recipe!</h1>
+<form method="post" action="">
+    <div>
+        <label>Recipe Name:</label>
+        <input type="number" th:href="${batch.batchNumber}">
+    </div>
+    <div>
+        <label>Batch Start Date:</label>
+        <input type="date" th:href="${batch.startDate}">
+    </div>
+</form>
 
 </body>
 </html>

@@ -23,7 +23,7 @@ public class User implements UserDetails {
     private List<Authority> authorities = new ArrayList<>();
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonIgnoreProperties("user")
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
     //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
