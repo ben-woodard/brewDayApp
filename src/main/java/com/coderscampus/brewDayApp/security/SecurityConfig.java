@@ -69,6 +69,8 @@ public class SecurityConfig {
                                         .requestMatchers("/products").authenticated()
                                         .requestMatchers("/success").authenticated()
 										.requestMatchers("/home/{userId}").authenticated()
+										.requestMatchers("/products/{userId}").authenticated()
+										.requestMatchers("/products/{userId}/create").authenticated()
                                         .requestMatchers("/register").permitAll()
                                         .anyRequest().permitAll()
                         )

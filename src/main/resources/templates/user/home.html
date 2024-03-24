@@ -11,7 +11,7 @@
         <a href="">Batches</a>
     </div>
     <div>
-        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
     </div>
     <div>
         <a href="">Recipes</a>
@@ -24,6 +24,12 @@
 <section>
     <a method="get" th:href="@{/createbatch}">Add Batch To Schedule</a>
 </section>
+<div th:if="${#lists.size(batches) > 0}">
+    <div th:each="batch : ${batches}">
+        <span th:text="${batch.batchNumber}"></span>
+        <span th:text="${batch.product.productName}"></span>
+    </div>
+</div>
 <form action="/logout" method="post">
     <button type="submit">Logout</button>
 </form>

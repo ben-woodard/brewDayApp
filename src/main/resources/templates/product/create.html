@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create A New Product</title>
+</head>
+<body>
+<h1>Create A New Product</h1>
+<form method="post" action="">
+    <div>
+        <label>Product Name:</label>
+        <input type="text" th:href="${product.productName}">
+    </div>
+    <div>
+        <label>Recipe:</label>
+        <select th:field="${product.selectedRecipe}">
+            <option th:each="recipe : ${product.recipes}" th:value="${recipe.recipeName}" th:text="${recipe.recipeName}"></option>
+        </select>
+        <br>
+        <a th:href="@{/recipes/{userId}/create (userId=${user.id})}">Create New Recipe</a>
+    </div>
+</form>
+
+</body>
+</html>

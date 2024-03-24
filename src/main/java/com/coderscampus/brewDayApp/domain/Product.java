@@ -3,6 +3,7 @@ package com.coderscampus.brewDayApp.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,11 +17,21 @@ public class Product {
 	private User user;
 	@OneToMany(mappedBy = "product", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JsonIgnoreProperties("product")
-	private List<Recipe> recipes;
+	private List<Recipe> recipes = new ArrayList<>();
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JsonIgnoreProperties("product")
 	private List<Batch> batches;
+	private String selectedRecipe;
 
+
+
+	public String getSelectedRecipe() {
+		return selectedRecipe;
+	}
+
+	public void setSelectedRecipe(String selectedRecipe) {
+		this.selectedRecipe = selectedRecipe;
+	}
 
 	public Long getProductId() {
 		return productId;
@@ -55,6 +66,14 @@ public class Product {
 
 	public void setRecipes(List<Recipe> recipes) {
 		this.recipes = recipes;
+	}
+
+	public List<Batch> getBatches() {
+		return batches;
+	}
+
+	public void setBatches(List<Batch> batches) {
+		this.batches = batches;
 	}
 
 	@Override
