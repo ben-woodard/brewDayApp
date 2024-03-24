@@ -35,6 +35,8 @@ public class RecipeController {
     public String getCreateNewRecipe(ModelMap model, @PathVariable Long productId) {
         List<Ingredient> ingredients = ingredientService.findAll();
         Product product = productService.findById(productId);
+        User user = product.getUser();
+        model.put("user", user);
         model.put("ingredients", ingredients);
         model.put("product", product);
         model.put("recipe", new Recipe());

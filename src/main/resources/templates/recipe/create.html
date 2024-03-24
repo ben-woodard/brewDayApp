@@ -5,15 +5,33 @@
     <title>[[product.productName]] New Recipe</title>
 </head>
 <body>
+<nav>
+    <div>
+        <a href="">Batches</a>
+    </div>
+    <div>
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
+    </div>
+    <div>
+        <a href="">Recipes</a>
+    </div>
+    <div>
+        <a href="">Inventory</a>
+    </div>
+</nav>
 <h1>Create A new Recipe!</h1>
 <form method="post" action="">
     <div>
         <label>Recipe Name:</label>
-        <input type="number" th:href="${batch.batchNumber}">
+        <input type="number" th:field="${recipe.recipeName}">
     </div>
     <div>
-        <label>Batch Start Date:</label>
-        <input type="date" th:href="${batch.startDate}">
+        <label>Ingredient Name:</label>
+        <select th:field="${ingredients}">
+            <option value="test1">Test 1</option>
+            <option value="test2">Test 2</option>
+            <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientName}"></option>
+        </select>
     </div>
 </form>
 

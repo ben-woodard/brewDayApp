@@ -17,6 +17,7 @@ public class Ingredient {
     private List<Recipe> recipes = new ArrayList<>();
     private BigDecimal price;
     private Double amountInStock;
+    private Double amountRemovedPerBatch;
     @Enumerated(EnumType.STRING)
     @Column(name="ingredientType")
     private ingredientType ingredientType;
@@ -36,6 +37,14 @@ public class Ingredient {
     }
 
     public Ingredient() {
+    }
+
+    public Double getAmountRemovedPerBatch() {
+        return amountRemovedPerBatch;
+    }
+
+    public void setAmountRemovedPerBatch(Double amountRemovedPerBatch) {
+        this.amountRemovedPerBatch = amountRemovedPerBatch;
     }
 
     public Long getIngredientId() {

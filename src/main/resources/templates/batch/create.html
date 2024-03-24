@@ -9,27 +9,27 @@
 <form method="post" action="">
     <div>
         <label>Batch Number:</label>
-        <input type="number" th:href="${batch.batchNumber}">
+        <input type="number" th:field="${batch.batchNumber}">
     </div>
     <div>
         <label>Batch Start Date:</label>
-        <input type="date" th:href="${batch.startDate}">
+        <input type="date" th:field="${batch.startDate}">
     </div>
     <div>
         <label>Batch End Date:</label>
-        <input type="date" th:href="${batch.endDate}">
+        <input type="date" th:field="${batch.endDate}">
     </div>
     <div>
         <label>Product Brand:</label>
-        <input type="text" th:href="${batch.brand}">
+        <input type="text" th:field="${batch.brand}">
     </div>
     <div>
         <label>Tank/Vessel:</label>
-        <input type="number" th:href="${batch.tankName}">
+        <input type="number" th:field="${batch.tankName}">
     </div>
     <div>
         <label>Number of Turns:</label>
-        <input type="number" th:href="${batch.tankName}">
+        <input type="number" th:field="${batch.tankName}">
     </div>
     <div>
         <input type="submit" value="Create New Batch">
