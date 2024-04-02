@@ -23,17 +23,20 @@
 <form method="post" action="">
     <div>
         <label>Recipe Name:</label>
-        <input type="number" th:field="${recipe.recipeName}">
+        <input type="text" th:field="${recipe.recipeName}">
     </div>
     <div>
         <label>Ingredient Name:</label>
         <select th:field="${ingredients}">
             <option value="test1">Test 1</option>
             <option value="test2">Test 2</option>
-            <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientName}"></option>
+            <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientName}" th:field="${recipe.ingredients.add(ingredient)}"></option>
         </select>
     </div>
+    <div>
+        <input type="submit" value="Create Recipe"/>
+    </div>
 </form>
-
+<a th:href="@{/inventory/create}">Add Ingredient to Inventory</a>
 </body>
 </html>

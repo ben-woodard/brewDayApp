@@ -12,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/recipes")
@@ -23,6 +26,7 @@ public class RecipeController {
     private final UserServiceImpl userService;
     private final ProductService productService;
     private final IngredientService ingredientService;
+
 
     @Autowired
     public RecipeController(UserServiceImpl userService, ProductService productService, IngredientService ingredientService) {
@@ -42,4 +46,6 @@ public class RecipeController {
         model.put("recipe", new Recipe());
         return "recipe/create";
     }
+
+    @PostMapping("/{productId}/create")
 }
