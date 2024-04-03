@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -15,12 +16,16 @@ public class Ingredient {
     private String ingredientName;
     @ManyToMany(mappedBy = "ingredients")
     private List<Recipe> recipes = new ArrayList<>();
-    private BigDecimal price;
     private Double amountInStock;
-    private Double amountRemovedPerBatch;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @Enumerated(EnumType.STRING)
-    @Column(name="ingredientType")
+    @Column(name = "ingredientType")
     private ingredientType ingredientType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unitOfMeasurement")
+    private unitOfMeasurement unitOfMeasurement;
     private enum ingredientType {
         MALT,
         HOP,
@@ -28,23 +33,13 @@ public class Ingredient {
         EXTRACT,
         SALT
     }
-    @Enumerated(EnumType.STRING)
-    @Column(name="unitOfMeasurement")
-    private unitOfMeasurement unitOfMeasurement;
+
     private enum unitOfMeasurement {
         lBS,
         OZ
     }
 
     public Ingredient() {
-    }
-
-    public Double getAmountRemovedPerBatch() {
-        return amountRemovedPerBatch;
-    }
-
-    public void setAmountRemovedPerBatch(Double amountRemovedPerBatch) {
-        this.amountRemovedPerBatch = amountRemovedPerBatch;
     }
 
     public Long getIngredientId() {
@@ -71,14 +66,6 @@ public class Ingredient {
         this.recipes = recipes;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public Double getAmountInStock() {
         return amountInStock;
     }
@@ -103,13 +90,20 @@ public class Ingredient {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Ingredient{" +
                 "ingredientId=" + ingredientId +
                 ", ingredientName='" + ingredientName + '\'' +
                 ", recipes=" + recipes +
-                ", price=" + price +
                 ", amountInStock=" + amountInStock +
                 ", ingredientType=" + ingredientType +
                 ", unitOfMeasurement=" + unitOfMeasurement +

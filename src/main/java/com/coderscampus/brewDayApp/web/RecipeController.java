@@ -47,5 +47,5 @@ public class RecipeController {
         return "recipe/create";
     }
 
-    @PostMapping("/{productId}/create")
+//    @PostMapping("/{productId}/create")
 }

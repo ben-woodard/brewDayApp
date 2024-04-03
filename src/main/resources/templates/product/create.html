@@ -19,7 +19,7 @@
 <div th:unless="${product.productId == null}">
     <h1 th:text="${product.productName}"></h1>
     <h3>Recipes</h3>
-    <a th:href="@{/recipes/{productId}/create (productId = ${product.productId})}">Add a recipe to [[${product.productName}]]</a>
+    <a th:href="@{/recipes/{productId}/create (productId = ${product.productId})}">Add a recipe</a>
     <div th:if="${#lists.size(product.recipes) > 0}">
         <div th:each="recipe : ${product.recipes}">
             <span th:text="${recipe.recipeName}"></span>

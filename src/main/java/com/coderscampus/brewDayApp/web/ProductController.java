@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -54,9 +52,10 @@ public class ProductController {
     }
 
     @GetMapping("/{userId}/{productId}")
-    public String getProductInformation (ModelMap model, @PathVariable Long productId ) {
-        Product product = productService.findById(productId);
-        model.put("product", product);
+    public String getProductInformation (ModelMap model, @PathVariable Long productId, @PathVariable Integer userId) {
+        User user = userService.findUserById(userId).orElse(null);
+        model.addAttribute("product", productService.findById(productId));
+        model.addAttribute("user", user);
         return "product/create";
     }
 

@@ -18,7 +18,7 @@ public class Batch {
     private LocalDate startDate;
     private LocalDate endDate;
     private String tankName;
-    private Boolean batchComlete;
+    private Boolean batchComplete;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
@@ -93,12 +93,12 @@ public class Batch {
         this.turns = turns;
     }
 
-    public Boolean getBatchComlete() {
-        return batchComlete;
+    public Boolean getBatchComplete() {
+        return batchComplete;
     }
 
-    public void setBatchComlete(Boolean batchComlete) {
-        this.batchComlete = batchComlete;
+    public void setBatchComplete(Boolean batchComlete) {
+        this.batchComplete = batchComlete;
     }
 
     @Override

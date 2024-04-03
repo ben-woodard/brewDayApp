@@ -28,15 +28,13 @@
     <div>
         <label>Ingredient Name:</label>
         <select th:field="${ingredients}">
-            <option value="test1">Test 1</option>
-            <option value="test2">Test 2</option>
-            <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientName}" th:field="${recipe.ingredients.add(ingredient)}"></option>
+            <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientName}" th:text="${ingredient.ingredientName}"></option>
         </select>
     </div>
     <div>
         <input type="submit" value="Create Recipe"/>
     </div>
 </form>
-<a th:href="@{/inventory/create}">Add Ingredient to Inventory</a>
+<a th:href="@{/inventory/{userId}/create (userId = ${user.id})}">Add Ingredient to Inventory</a>
 </body>
 </html>

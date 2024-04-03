@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory</title>
+</head>
+<body>
+<nav>
+    <div>
+        <a href="">Batches</a>
+    </div>
+    <div>
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
+    </div>
+    <div>
+        <a href="">Recipes</a>
+    </div>
+    <div>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
+    </div>
+</nav>
+<h1>[[${user.companyName}]] Inventory</h1>
+<div>
+    <a th:href="@{/inventory/{userId}/create (userId = ${user.id})}">Create New Inventory Item</a>
+</div>
+<div>
+    <div th:each="ingredient : ${ingredientsList}">
+        <span th:text="${ingredient.ingredientName}"></span>
+        <span th:text="${ingredient.ingredientType}"></span>
+        <span th:text="${ingredient.amountInStock}"></span>
+    </div>
+</div>
+
+</body>
+</html>

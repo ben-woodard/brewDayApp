@@ -40,7 +40,7 @@ public class ProductService {
         User user = userService.findUserById(userId).orElse(null);
         product.setUser(user);
         user.getProducts().add(product);
-        return productRepo.save(product);
+        return save(product);
     }
 
     public Product findById(Long productId) {

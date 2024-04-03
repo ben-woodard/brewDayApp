@@ -3,6 +3,7 @@ package com.coderscampus.brewDayApp.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,31 +25,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonIgnoreProperties("user")
     private List<Product> products = new ArrayList<>();
-
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long companyId;
-//    private String companyName;
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
-//    @JsonIgnoreProperties("company")
-//    private List<User> users;
-
-    //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
-//    @JsonIgnore
-//    private List<Message> messages = new ArrayList<>();
-
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long companyId;
-//    private String companyName;
-//    @OneToMany(mappedBy = "company", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//    private List<Brand> brands;
-//    private String companyEmail;
-//    private String companyPassword;
-
-
-
-
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JsonIgnoreProperties("user")
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     @Override
     public Collection<Authority> getAuthorities() {
@@ -97,7 +76,7 @@ public class User implements UserDetails {
     public String getPassword() {
         return this.password;
     }
-    
+
     public User firstName(String firstName) {
         this.firstName = firstName;
         return this;
@@ -107,12 +86,12 @@ public class User implements UserDetails {
         this.companyName = companyName;
         return this;
     }
-    
+
     public User lastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
-    
+
     public User email(String email) {
         this.email = email;
         return this;
@@ -123,7 +102,7 @@ public class User implements UserDetails {
         this.getAuthorities().add(auth);
         return this;
     }
-    
+
     public User password(String password) {
         this.password = password;
         return this;
@@ -132,6 +111,14 @@ public class User implements UserDetails {
     public User products(List<Product> products) {
         this.products = products;
         return this;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public void setId(Integer id) {
@@ -162,7 +149,7 @@ public class User implements UserDetails {
         return id;
     }
 
-    public User build () {
+    public User build() {
         return this;
     }
 

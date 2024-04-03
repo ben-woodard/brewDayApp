@@ -17,7 +17,7 @@
         <a href="">Recipes</a>
     </div>
     <div>
-        <a href="">Inventory</a>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
     </div>
 </nav>
 <h1 th:text="${user.companyName}"></h1>
