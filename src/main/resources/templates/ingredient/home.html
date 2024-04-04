@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Inventory</title>
+    <link rel="stylesheet" type="text/css" href="/css/ingredient.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
+
 <body>
 <nav>
     <div>
@@ -21,15 +27,67 @@
 </nav>
 <h1>[[${user.companyName}]] Inventory</h1>
 <div>
-    <a th:href="@{/inventory/{userId}/create (userId = ${user.id})}">Create New Inventory Item</a>
+    <button id="create-adjust-open">Create New Ingredient</button>
 </div>
-<div>
-    <div th:each="ingredient : ${ingredientsList}">
-        <span th:text="${ingredient.ingredientName}"></span>
-        <span th:text="${ingredient.ingredientType}"></span>
-        <span th:text="${ingredient.amountInStock}"></span>
+<div th:if="${#lists.size(ingredientsList) > 0}">
+    <h2>Inventory</h2>
+    <table>
+        <tr>
+            <th>Item Name</th>
+            <th>Item Type</th>
+            <th>Amount In Stock</th>
+            <th>Unit of Measurement</th>
+        </tr>
+        <tr method="get" th:each="ingredient : ${ingredientsList}">
+            <td>
+                <a th:href="@{/inventory/{userId}/{ingredientId} (userId = ${user.id}, ingredientId = ${ingredient.ingredientId})}"
+                   th:text="${ingredient.ingredientName}"></a>
+            </td>
+            <td th:text="${ingredient.ingredientType}"></td>
+            <td th:text="${ingredient.amountInStock}"></td>
+            <td th:text="${ingredient.unitOfMeasurement}"></td>
+        </tr>
+    </table>
+</div>
+<!--Create Ingredient Modal-->
+<section>
+    <div class="create-modal-container" id="create-modal-container">
+        <div class="create-modal">
+            <form method="post" th:action="@{/inventory/{userId}/create (userId = ${user.id})}">
+                <h2>Create Ingredient</h2>
+                <div>
+                    <label>Ingredient Name:</label>
+                    <input type="text" th:field="${ingredient.ingredientName}">
+                </div>
+                <div>
+                    <label>Ingredient Type:</label>
+                    <select th:field="*{ingredient.ingredientType}">
+                        <option th:each="type : ${T(com.coderscampus.brewDayApp.domain.Ingredient.ingredientType).values()}"
+                                th:value="${type}" th:text="${type}">
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label>Amount In Stock:</label>
+                    <input type="number" th:field="${ingredient.amountInStock}">
+                </div>
+                <div>
+                    <label>Unit of Measurement:</label>
+                    <select th:field="*{ingredient.unitOfMeasurement}">
+                        <option th:each="unit : ${T(com.coderscampus.brewDayApp.domain.Ingredient.unitOfMeasurement).values()}"
+                                th:value="${unit}" th:text="${unit}">
+                        </option>
+                    </select>
+                </div>
+                <div >
+                    <button type="submit" id="create-modal-close">Create Ingredient</button>
+                </div>
+            </form>
+            <button id="close-create-modal">Cancel</button>
+        </div>
     </div>
-</div>
-
+</section>
+<script src="/js/inventory.js"></script>
 </body>
+
 </html>

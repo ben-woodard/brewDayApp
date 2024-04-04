@@ -90,6 +90,7 @@ public class Ingredient {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 
+
     public User getUser() {
         return user;
     }

@@ -38,4 +38,12 @@ public class IngredientService {
         user.getIngredients().add(ingredient);
         return save(ingredient);
     }
+
+    public Ingredient updateIngredientInfo(Ingredient ingredient, Integer userId) {
+        Ingredient savedIngredient = findById(ingredient.getIngredientId());
+        User user = userService.findUserById(userId).orElse(null);
+        savedIngredient.setUser(user);
+        user.getIngredients().add(savedIngredient);
+        return save(savedIngredient);
+    }
 }

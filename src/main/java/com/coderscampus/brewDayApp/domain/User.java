@@ -25,7 +25,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JsonIgnoreProperties("user")
     private List<Product> products = new ArrayList<>();
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE})
     @JsonIgnoreProperties("user")
     private List<Ingredient> ingredients = new ArrayList<>();
 

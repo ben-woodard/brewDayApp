@@ -25,21 +25,22 @@ public class IngredientController {
     @GetMapping("{userId}/home")
     public String getUserInventoryHome(@PathVariable Integer userId, ModelMap model) {
         User user = userService.findUserById(userId).orElse(null);
+        model.addAttribute("ingredient", new Ingredient());
         model.addAttribute("ingredientsList", user.getIngredients());
         model.addAttribute("user", user);
         return "ingredient/home";
     }
 
-    @GetMapping("{userId}/create")
-    public String getCreateIngredient(ModelMap model) {
-        model.addAttribute("ingredient", new Ingredient());
-        return"ingredient/create";
-    }
+//    @GetMapping("{userId}/create")
+//    public String getCreateIngredient(ModelMap model) {
+//        model.addAttribute("ingredient", new Ingredient());
+//        return "ingredient/create";
+//    }
 
     @PostMapping("{userId}/create")
     public String postCreateIngredient(@ModelAttribute Ingredient ingredient, @PathVariable Integer userId) {
-        Ingredient savedIngredient = ingredientService.saveIngredientUserRelationship(ingredient, userId);
-        return "redirect:/inventory/{userId}/" + savedIngredient.getIngredientId();
+        ingredientService.saveIngredientUserRelationship(ingredient, userId);
+        return "redirect:/inventory/{userId}/home";
     }
 
     @GetMapping("/{userId}/{ingredientId}")
@@ -49,10 +50,12 @@ public class IngredientController {
     }
 
     @PostMapping("/{userId}/{ingredientId}")
-    public String postUpdateIngredientInfo(@ModelAttribute Ingredient ingredient, @PathVariable Integer userId) {
+    public String postUpdateIngredientInfo(@PathVariable Integer userId, @ModelAttribute Ingredient ingredient) {
+        System.out.println(ingredient);
         ingredientService.saveIngredientUserRelationship(ingredient, userId);
-        return "redirect:/inventory/"+ingredient.getIngredientId();
+        return "redirect:/inventory/{userId}/home";
     }
+
 }
 
 
