@@ -44,9 +44,12 @@ public class IngredientController {
     }
 
     @GetMapping("/{userId}/{ingredientId}")
-    public String getIngredientInfoById(@PathVariable Long ingredientId, ModelMap model) {
-        model.addAttribute("ingredient", ingredientService.findById(ingredientId));
-        return "ingredient/create";
+    public String getIngredientInfoById(@PathVariable Long ingredientId, ModelMap model, @PathVariable Integer userId) {
+        Ingredient ingredient = ingredientService.findById(ingredientId);
+        model.addAttribute("user", userService.findUserById(userId).orElse(null));
+        model.addAttribute("ingredient", ingredient);
+        model.addAttribute("recipeList", ingredient.getRecipes());
+        return "ingredient/update";
     }
 
     @PostMapping("/{userId}/{ingredientId}")

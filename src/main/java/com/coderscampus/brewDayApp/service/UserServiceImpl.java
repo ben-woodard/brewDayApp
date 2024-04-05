@@ -1,6 +1,8 @@
 package com.coderscampus.brewDayApp.service;
 
 import com.coderscampus.brewDayApp.domain.Authority;
+import com.coderscampus.brewDayApp.domain.Batch;
+import com.coderscampus.brewDayApp.domain.Recipe;
 import com.coderscampus.brewDayApp.domain.User;
 
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import com.coderscampus.brewDayApp.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -99,5 +102,6 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
+
 
 }

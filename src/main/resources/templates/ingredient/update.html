@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Ingredient to Inventory</title>
+</head>
+<body>
+<nav>
+    <div>
+        <a href="">Batches</a>
+    </div>
+    <div>
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
+    </div>
+    <div>
+        <a href="">Recipes</a>
+    </div>
+    <div>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
+    </div>
+</nav>
+<section>
+    <form method="post" action="">
+        <h1>[[${ingredient.ingredientName}]] Information</h1>
+        <div>
+            <label>Ingredient Name:</label>
+            <input type="text" th:field="${ingredient.ingredientName}">
+        </div>
+        <div>
+            <label>Ingredient Type:</label>
+            <select th:field="*{ingredient.ingredientType}">
+                <option th:each="type : ${T(com.coderscampus.brewDayApp.domain.Ingredient.ingredientType).values()}"
+                        th:value="${type}" th:text="${type}">
+                </option>
+            </select>
+        </div>
+        <div>
+            <label>Amount In Stock:</label>
+            <input type="number" th:field="${ingredient.amountInStock}">
+        </div>
+        <div>
+            <label>Unit of Measurement:</label>
+            <select th:field="*{ingredient.unitOfMeasurement}">
+                <option th:each="unit : ${T(com.coderscampus.brewDayApp.domain.Ingredient.unitOfMeasurement).values()}"
+                        th:value="${unit}" th:text="${unit}">
+                </option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Update Ingredient"/>
+        </div>
+    </form>
+    <div th:if="${#lists.size(recipeList) > 0}">
+        <div th:each="recipe : ${recipeList}">
+            <span th:text="${recipe.recipeName}"></span>
+        </div>
+    </div>
+</section>
+</body>
+</html>

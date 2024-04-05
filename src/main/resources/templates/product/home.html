@@ -10,11 +10,11 @@
         <a href="">Batches</a>
     </div>
     <div>
-        <a href="">Recipes</a>
-    </div>
-    <div>
         <a href="">Inventory</a>
     </div>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
 </nav>
 <h1>products home page</h1>
 <div>
@@ -23,12 +23,15 @@
 </div>
 
 <div th:if="${#lists.size(products) > 0}">
-    <div th:each="product : ${products}">
-        <span th:text="${product.productName}"></span>
-    </div>
+    <table>
+        <tr>
+            <th>Product</th>
+        </tr>
+        <tr th:each="product :${products}">
+            <td><a th:text="${product.productName}" th:href="@{/products/{userId}/{productId}
+            (userId = ${user.id}, productId=${product.productId})}"></a></td>
+        </tr>
+    </table>
 </div>
-<form action="/logout" method="post">
-    <button type="submit">Logout</button>
-</form>
 </body>
 </html>

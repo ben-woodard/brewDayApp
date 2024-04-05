@@ -30,4 +30,5 @@ public class RecipeService {
                 .forEach(recipes::addAll);
         return recipes;
     }
+
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Home</title>
+</head>
+<body>
+<nav>
+    <div>
+        <a href="">Batches</a>
+    </div>
+    <div>
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
+    </div>
+    <div>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
+    </div>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+<section>
+    <form method="get" th:action="@{/recipes/{userId}/create (userId = ${user.id})}">
+        <button type="submit">Create New Recipe</button>
+    </form>
+    <h1>[[${user.companyName}]] Recipes</h1>
+    <div th:if="${#lists.size(recipesList) > 0}">
+        <h2>Recipes</h2>
+        <table>
+            <tr>
+                <th>Recipe Name</th>
+            </tr>
+            <tr method="get" th:each="recipe : ${recipesList}">
+                <td>
+                    <a th:href="@{/recipes/{userId}/{recipeId} (userId = ${user.id}, ingredientId = ${recipe.recipeId})}"
+                       th:text="${recipe.recipeName}"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>

@@ -16,14 +16,28 @@
         <a href="">Recipes</a>
     </div>
     <div>
-        <a href="">Inventory</a>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
     </div>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
 </nav>
 <h1>Create A new Recipe!</h1>
 <form method="post" action="">
     <div>
         <label>Recipe Name:</label>
         <input type="text" th:field="${recipe.recipeName}">
+    </div>
+    <div th:if="${product == null}">
+        <select th:field="${product}">
+            <option th:each="product : ${productsList}" th:value="${product.productName}" th:text="${product.productName}"></option>
+        </select>
+    </div>
+    <div th:unless="${product == null}">
+        <select th:field="${product}">
+            <option th:value="${product.productName}" th:text="${product.productName}"></option>
+            <option th:each="product : ${productsList}" th:value="${product.productName}" th:text="${product.productName}"></option>
+        </select>
     </div>
     <div>
         <label>Ingredient Name:</label>
