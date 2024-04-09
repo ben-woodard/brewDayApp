@@ -2,31 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create A New Product</title>
+    <title>[[${product.productName}]]</title>
+    <link rel="stylesheet" type="text/css" href="/css/product.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<form th:if="${product.productId == null}" method="post" action="">
-    <h1>Create A New Product</h1>
+<nav>
     <div>
-        <label>Product Name:</label>
-        <input type="text" th:field="${product.productName}">
+        <a href="">Batches</a>
     </div>
     <div>
-        <input type="submit" value="Create Product">
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
     </div>
-</form>
-<div th:unless="${product.productId == null}">
-    <h1 th:text="${product.productName}"></h1>
-    <h3>Recipes</h3>
-    <a th:href="@{/recipes/{productId}/create (productId = ${product.productId})}">Add a recipe</a>
-    <div th:if="${#lists.size(product.recipes) > 0}">
-        <div th:each="recipe : ${product.recipes}">
-            <span th:text="${recipe.recipeName}"></span>
+    <div>
+        <a th:href="@{/recipes/{userId}/home (userId = ${user.id})}">Recipes</a>
+    </div>
+    <div>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
+    </div>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+<!--Display Product Information-->
+<section>
+    <div>
+        <h1 th:text="${product.productName}"></h1>
+        <h3>Recipes</h3>
+        <button id="create-recipe-open" th:href="@{/recipes/{productId}/create (productId = ${product.productId})}">Add
+            a
+            recipe
+        </button>
+        <div th:if="${#lists.size(product.recipes) > 0}">
+            <table>
+                <tr>
+                    <th>Recipe Name</th>
+                </tr>
+                <tr th:each="rec : ${product.recipes}">
+                    <td><a th:text="${rec.recipeName}"
+                    th:href="@{/recipes/{productId}/{recipeId} (productId=${product.productId}, recipeId=${rec.recipeId})}"></a></td>
+                </tr>
+            </table>
         </div>
     </div>
-</div>
+</section>
 
-<!--<script src="/js/product-create.js"></script>-->
+<!--Modals Section-->
+<section>
+    <div class="create-modal-container" id="create-modal-container">
+        <div class="create-modal">
+            <h2>New Recipe</h2>
+            <form method="post"
+                  th:action="@{/recipes/{productId}/create (productId=${product.productId})}">
+                <div>
+                    <input type="text" th:field="${recipe.recipeName}"/>
+                </div>
+                <div>
+                    <button type="submit" id="create-modal-close">Create Recipe</button>
+                </div>
+            </form>
+            <button id="close-create-modal">Cancel</button>
+        </div>
+    </div>
+</section>
+<script src="/js/productCreate.js"></script>
 </body>
 </html>

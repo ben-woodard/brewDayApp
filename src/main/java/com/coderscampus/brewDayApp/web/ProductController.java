@@ -32,18 +32,19 @@ public class ProductController {
         if (user == null) {
             return "redirect:/signin";
         }
-        model.put("user", user);
-        model.put("products", user.getProducts());
+        model.addAttribute("product", new Product());
+        model.addAttribute("user", user);
+        model.addAttribute("products", user.getProducts());
         return "product/home";
     }
 
-    @GetMapping("/{userId}/create")
-    public String getCreateProduct(ModelMap model, @PathVariable Integer userId) {
-        User user = userService.findUserById(userId).orElse(null);
-        model.put("recipe", new Recipe());
-        model.put("product", new Product());
-        return "product/create";
-    }
+//    @GetMapping("/{userId}/create")
+//    public String getCreateProduct(ModelMap model, @PathVariable Integer userId) {
+//        User user = userService.findUserById(userId).orElse(null);
+//        model.addAttribute("recipe", new Recipe());
+//        model.addAttribute("product", new Product());
+//        return "product/create";
+//    }
 
     @PostMapping("/{userId}/create")
     public String postCreateProductByName(@ModelAttribute Product product, @PathVariable Integer userId) {
@@ -54,6 +55,7 @@ public class ProductController {
     @GetMapping("/{userId}/{productId}")
     public String getProductInformation (ModelMap model, @PathVariable Long productId, @PathVariable Integer userId) {
         User user = userService.findUserById(userId).orElse(null);
+        model.addAttribute("recipe", new Recipe());
         model.addAttribute("product", productService.findById(productId));
         model.addAttribute("user", user);
         return "product/create";

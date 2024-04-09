@@ -104,7 +104,6 @@ public class Ingredient {
         return "Ingredient{" +
                 "ingredientId=" + ingredientId +
                 ", ingredientName='" + ingredientName + '\'' +
-                ", recipes=" + recipes +
                 ", amountInStock=" + amountInStock +
                 ", ingredientType=" + ingredientType +
                 ", unitOfMeasurement=" + unitOfMeasurement +

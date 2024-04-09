@@ -46,4 +46,12 @@ public class IngredientService {
         user.getIngredients().add(savedIngredient);
         return save(savedIngredient);
     }
+
+
+    public void delete(Ingredient ingredient, User user) {
+        userService.removeIngredientFromUser(user, ingredient);
+        ingredient.getRecipes().stream()
+                        .forEach(recipe -> recipe.getIngredients().remove(ingredient));
+        ingredientRepo.delete(ingredient);
+    }
 }

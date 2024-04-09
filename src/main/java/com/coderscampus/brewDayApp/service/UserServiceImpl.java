@@ -1,9 +1,6 @@
 package com.coderscampus.brewDayApp.service;
 
-import com.coderscampus.brewDayApp.domain.Authority;
-import com.coderscampus.brewDayApp.domain.Batch;
-import com.coderscampus.brewDayApp.domain.Recipe;
-import com.coderscampus.brewDayApp.domain.User;
+import com.coderscampus.brewDayApp.domain.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,4 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    public void removeIngredientFromUser(User user, Ingredient ingredient) {
+        user.getIngredients().remove(ingredient);
+    }
 }

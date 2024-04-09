@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>[[product.productName]] New Recipe</title>
+    <title>[[${recipe.recipeName}]]</title>
+    <link rel="stylesheet" type="text/css" href="/css/recipe.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
 <nav>
     <div>
-        <a href="">Batches</a>
+        <a href="th:">Batches</a>
     </div>
     <div>
         <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
     </div>
     <div>
-        <a href="">Recipes</a>
+        <a th:href="@{/recipes/{userId}/home (userId = ${user.id})}">Recipes</a>
     </div>
     <div>
         <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
@@ -22,33 +26,66 @@
         <button type="submit">Logout</button>
     </form>
 </nav>
-<h1>Create A new Recipe!</h1>
-<form method="post" action="">
-    <div>
-        <label>Recipe Name:</label>
-        <input type="text" th:field="${recipe.recipeName}">
+<section>
+    <h1 th:text="${recipe.recipeName}"></h1>
+    <form method="post" action="">
+        <div>
+            <label>Recipe Name:</label>
+            <input type="text" th:field="${recipe.recipeName}">
+        </div>
+        <div>
+            <label>Product:</label>
+            <select th:field="${product}">
+                <option th:each="product : ${user.products}" th:value="${product.productName}"
+                        th:text="${product.productName}"></option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Update Recipe Information"/>
+        </div>
+        <h2>Ingredients</h2>
+        <button type="button" id="ingredient-add-open">Add Ingredient</button>
+        <table>
+            <tr>
+                <th>Ingredient</th>
+                <th>Type</th>
+                <th>Amount</th>
+            </tr>
+            <tr th:each="entry : ${ingredientAmountMap}">
+                <td><a th:text="${entry.key.ingredientName}"
+                       th:href="@{/inventory/{userId}/{ingredientId}(userId=${user.id}, ingredientId=${entry.getKey().ingredientId})}"></a>
+                </td>
+                <td th:text="${entry.key.ingredientType}"></td>
+                <td th:text="${entry.value}"></td>
+            </tr>
+        </table>
+    </form>
+</section>
+<!--Modals Section-->
+<section>
+    <div class="create-modal-container" id="create-modal-container">
+        <div class="create-modal">
+            <h2>Add Ingredient</h2>
+            <form th:action="@{/recipes/{recipeId}/addingredient (recipeId=${recipe.recipeId})}" method="post">
+                <select th:field="*{recipeDTO.ingredientId}" required>
+                    <option th:each="ingred : ${ingredients}"
+                            th:value="*{ingred.ingredientId}"
+                            th:text="${ingred.ingredientName}"
+                    ></option>
+                </select>
+                <div>
+                    <label>Amount:</label>
+                    <input type="number"  th:field="*{recipeDTO.amount}"/>
+                </div>
+                <div>
+                    <button type="submit" id="create-modal-close">Add Ingredient</button>
+                </div>
+            </form>
+            <button id="close-create-modal">Cancel</button>
+        </div>
     </div>
-    <div th:if="${product == null}">
-        <select th:field="${product}">
-            <option th:each="product : ${productsList}" th:value="${product.productName}" th:text="${product.productName}"></option>
-        </select>
-    </div>
-    <div th:unless="${product == null}">
-        <select th:field="${product}">
-            <option th:value="${product.productName}" th:text="${product.productName}"></option>
-            <option th:each="product : ${productsList}" th:value="${product.productName}" th:text="${product.productName}"></option>
-        </select>
-    </div>
-    <div>
-        <label>Ingredient Name:</label>
-        <select th:field="${ingredients}">
-            <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientName}" th:text="${ingredient.ingredientName}"></option>
-        </select>
-    </div>
-    <div>
-        <input type="submit" value="Create Recipe"/>
-    </div>
-</form>
+</section>
 <a th:href="@{/inventory/{userId}/create (userId = ${user.id})}">Add Ingredient to Inventory</a>
+<script src="/js/recipe.js"></script>
 </body>
 </html>

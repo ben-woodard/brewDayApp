@@ -19,11 +19,14 @@
         <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
     </div>
     <div>
-        <a href="">Recipes</a>
+        <a th:href="@{/recipes/{userId}/home (userId = ${user.id})}">Recipes</a>
     </div>
     <div>
         <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
     </div>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
 </nav>
 <h1>[[${user.companyName}]] Inventory</h1>
 <div>

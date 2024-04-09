@@ -2,7 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Product Home</title>
+    <title>[[${user.companyName}]] Products</title>
+    <link rel="stylesheet" type="text/css" href="/css/product.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
 <nav>
@@ -10,28 +14,55 @@
         <a href="">Batches</a>
     </div>
     <div>
-        <a href="">Inventory</a>
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
+    </div>
+    <div>
+        <a th:href="@{/recipes/{userId}/home (userId = ${user.id})}">Recipes</a>
+    </div>
+    <div>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
     </div>
     <form action="/logout" method="post">
         <button type="submit">Logout</button>
     </form>
 </nav>
-<h1>products home page</h1>
-<div>
-    <a th:href="@{/products/{userId}/create (userId=${user.id})}">Add A New Product</a>
-<!--    <a th:href="@{/products/{userId} (userId = ${user.id})}">-->
-</div>
-
-<div th:if="${#lists.size(products) > 0}">
-    <table>
-        <tr>
-            <th>Product</th>
-        </tr>
-        <tr th:each="product :${products}">
-            <td><a th:text="${product.productName}" th:href="@{/products/{userId}/{productId}
+<section>
+    <h1>[[${user.companyName}]] Products</h1>
+    <div>
+<!--        <a th:href="@{/products/{userId}/create (userId=${user.id})}">Add A New Product</a>-->
+        <button id="create-product-open">Create A New Product</button>
+    </div>
+    <div th:if="${#lists.size(products) > 0}">
+        <table>
+            <tr>
+                <th>Product</th>
+            </tr>
+            <tr th:each="product :${products}">
+                <td><a th:text="${product.productName}" th:href="@{/products/{userId}/{productId}
             (userId = ${user.id}, productId=${product.productId})}"></a></td>
-        </tr>
-    </table>
-</div>
+            </tr>
+        </table>
+    </div>
+</section>
+<!--Modal Section-->
+<section>
+    <div class="create-modal-container" id="create-modal-container">
+        <div class="create-modal">
+            <h2>Add Ingredient</h2>
+            <form th:action="@{/products/{userId}/create (userId=${user.id})}" method="post">
+                <h1>Create A New Product</h1>
+                <div>
+                    <label>Product Name:</label>
+                    <input type="text" th:field="${product.productName}">
+                </div>
+                <div>
+                    <button type="submit" id="create-modal-close">Create Product</button>
+                </div>
+            </form>
+            <button id="close-create-modal">Cancel</button>
+        </div>
+    </div>
+</section>
+<script src="/js/productHome.js"></script>
 </body>
 </html>

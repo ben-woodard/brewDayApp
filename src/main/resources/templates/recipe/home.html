@@ -7,10 +7,13 @@
 <body>
 <nav>
     <div>
-        <a href="">Batches</a>
+        <a href="th:">Batches</a>
     </div>
     <div>
         <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
+    </div>
+    <div>
+        <a th:href="@{/recipes/{userId}/home (userId = ${user.id})}">Recipes</a>
     </div>
     <div>
         <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
@@ -29,6 +32,7 @@
         <table>
             <tr>
                 <th>Recipe Name</th>
+                <th>Product Name</th>
             </tr>
             <tr method="get" th:each="recipe : ${recipesList}">
                 <td>

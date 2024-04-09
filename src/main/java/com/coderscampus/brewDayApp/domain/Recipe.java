@@ -16,7 +16,7 @@ public class Recipe {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "recipe_ingredient",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
@@ -75,8 +75,6 @@ public class Recipe {
         return "Recipe{" +
                 "recipeId=" + recipeId +
                 ", recipeName='" + recipeName + '\'' +
-                ", product=" + product +
-                ", ingredients=" + ingredients +
                 ", ingredientsToRemove=" + ingredientsToRemove +
                 '}';
     }

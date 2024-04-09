@@ -31,12 +31,6 @@ public class IngredientController {
         return "ingredient/home";
     }
 
-//    @GetMapping("{userId}/create")
-//    public String getCreateIngredient(ModelMap model) {
-//        model.addAttribute("ingredient", new Ingredient());
-//        return "ingredient/create";
-//    }
-
     @PostMapping("{userId}/create")
     public String postCreateIngredient(@ModelAttribute Ingredient ingredient, @PathVariable Integer userId) {
         ingredientService.saveIngredientUserRelationship(ingredient, userId);
@@ -56,6 +50,14 @@ public class IngredientController {
     public String postUpdateIngredientInfo(@PathVariable Integer userId, @ModelAttribute Ingredient ingredient) {
         System.out.println(ingredient);
         ingredientService.saveIngredientUserRelationship(ingredient, userId);
+        return "redirect:/inventory/{userId}/home";
+    }
+
+    @PostMapping("/{userId}/{ingredientId}/delete")
+    public String postDeleteIngredient(@PathVariable Long ingredientId, @PathVariable Integer userId) {
+        Ingredient ingredient = ingredientService.findById(ingredientId);
+        User user = userService.findUserById(userId).orElse(null);
+        ingredientService.delete(ingredient, user);
         return "redirect:/inventory/{userId}/home";
     }
 
