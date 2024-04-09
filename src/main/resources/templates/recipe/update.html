@@ -28,23 +28,24 @@
 </nav>
 <section>
     <h1 th:text="${recipe.recipeName}"></h1>
+    <form method="post" th:action="@{/recipes/{productId}/{recipeId}/delete
+              (productId=${product.productId}, recipeId=${recipe.recipeId})}">
+        <input type="submit" value="Delete Recipe">
+    </form>
     <form method="post" action="">
         <div>
             <label>Recipe Name:</label>
             <input type="text" th:field="${recipe.recipeName}">
         </div>
         <div>
-            <label>Product:</label>
-            <select th:field="${product}">
-                <option th:each="product : ${user.products}" th:value="${product.productName}"
-                        th:text="${product.productName}"></option>
-            </select>
+            <span>Product:</span>
+            <span th:text="${recipe.product.productName}"></span>
         </div>
         <div>
             <input type="submit" value="Update Recipe Information"/>
         </div>
         <h2>Ingredients</h2>
-        <button type="button" id="ingredient-add-open">Add Ingredient</button>
+        <button type="button" id="modal-add-open">Add Ingredient</button>
         <table>
             <tr>
                 <th>Ingredient</th>
@@ -65,7 +66,7 @@
 <section>
     <div class="create-modal-container" id="create-modal-container">
         <div class="create-modal">
-            <h2>Add Ingredient</h2>
+            <h2>Add Ingredient To Recipe</h2>
             <form th:action="@{/recipes/{recipeId}/addingredient (recipeId=${recipe.recipeId})}" method="post">
                 <select th:field="*{recipeDTO.ingredientId}" required>
                     <option th:each="ingred : ${ingredients}"
@@ -75,7 +76,7 @@
                 </select>
                 <div>
                     <label>Amount:</label>
-                    <input type="number"  th:field="*{recipeDTO.amount}"/>
+                    <input type="number" th:field="*{recipeDTO.amount}"/>
                 </div>
                 <div>
                     <button type="submit" id="create-modal-close">Add Ingredient</button>
@@ -85,7 +86,6 @@
         </div>
     </div>
 </section>
-<a th:href="@{/inventory/{userId}/create (userId = ${user.id})}">Add Ingredient to Inventory</a>
 <script src="/js/recipe.js"></script>
 </body>
 </html>

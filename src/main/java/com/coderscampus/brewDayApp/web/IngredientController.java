@@ -48,7 +48,6 @@ public class IngredientController {
 
     @PostMapping("/{userId}/{ingredientId}")
     public String postUpdateIngredientInfo(@PathVariable Integer userId, @ModelAttribute Ingredient ingredient) {
-        System.out.println(ingredient);
         ingredientService.saveIngredientUserRelationship(ingredient, userId);
         return "redirect:/inventory/{userId}/home";
     }

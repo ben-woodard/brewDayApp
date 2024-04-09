@@ -34,18 +34,27 @@ public class RecipeController {
         User user = userService.findUserById(userId).orElse(null);
         model.addAttribute("user", user);
         model.addAttribute("recipesList", recipeService.findAllRecipesByUser(user));
+        model.addAttribute("productsList", user.getProducts());
+        model.addAttribute("recipe", new Recipe());
+        model.addAttribute("recipeDTO", new RecipeDTO());
         return "recipe/home";
     }
 
+    @PostMapping("/create")
+    public String createNewRecipeFromRecipeHome(@ModelAttribute RecipeDTO recipeDTO, @ModelAttribute Recipe recipe){
+        Recipe savedRecipe = recipeService.saveRecipeProductRelationship(recipe, recipeDTO.getProductId());
+        return "redirect:/recipes/"+ recipe.getProduct().getProductId() + "/" + savedRecipe.getRecipeId();
+    }
+
     @PostMapping("/{productId}/create")
-    public String createNewRecipeFromRecipeHome(@ModelAttribute Recipe recipe, @PathVariable Long productId) {
-        Recipe savedRecipe = recipeService.createRecipeProductRelationship(recipe, productId);
+    public String createNewRecipeFromRecipeCreate(@ModelAttribute Recipe recipe, @PathVariable Long productId) {
+        Recipe savedRecipe = recipeService.saveRecipeProductRelationship(recipe, productId);
         return "redirect:/recipes/{productId}/" + savedRecipe.getRecipeId();
     }
 
     @GetMapping("/{productId}/{recipeId}")
     public String getRecipeInformation(Model model, @PathVariable Long recipeId, @PathVariable Long productId) {
-        Product product =  productService.findById(productId);
+        Product product = productService.findById(productId);
         Recipe recipe = recipeService.findById(recipeId);
         User user = product.getUser();
         model.addAttribute("recipeDTO", new RecipeDTO());
@@ -54,43 +63,27 @@ public class RecipeController {
         model.addAttribute("product", product);
         model.addAttribute("user", user);
         model.addAttribute("recipe", recipe);
-        return "recipe/create";
+        return "recipe/update";
     }
 
-//    @PostMapping("/{productId}/{recipeId}")
-//    public String postUpdateRecipeInformation(@ModelAttribute Recipe recipe, )
+    @PostMapping("/{productId}/{recipeId}")
+    public String postUpdateRecipe(@ModelAttribute Recipe recipe, @PathVariable Long recipeId) {
+        recipeService.updateRecipeName(recipe, recipeId);
+        return "redirect:/recipes/{productId}/{recipeId}";
+    }
 
     @PostMapping("/{recipeId}/addingredient")
     public String postAddIngredientToRecipe(@ModelAttribute RecipeDTO recipeDTO, @PathVariable Long recipeId) {
-        Recipe recipe = recipeService.createRecipeIngredientRelationship(recipeDTO, recipeId);
+        Recipe recipe = recipeService.saveRecipeIngredientRelationship(recipeDTO, recipeId);
         Product product = recipe.getProduct();
-        return "redirect:/recipes/"+ product.getProductId() + "/" + recipe.getRecipeId();
+        return "redirect:/recipes/" + product.getProductId() + "/" + recipe.getRecipeId();
     }
 
-//
-//    @GetMapping("/{productId}/create")
-//    public String getCreateNewRecipe(ModelMap model, @PathVariable Long productId) {
-//        Product product = productService.findById(productId);
-//        Recipe recipe = new Recipe();
-//        List<String> stringList = new ArrayList<>();
-//        model.addAttribute("user", product.getUser());
-//        model.addAttribute("ingredients", ingredientService.findAll());
-//        model.addAttribute("product", product);
-//        model.addAttribute("recipe", recipe);
-//        model.addAttribute("toRemoveMap", recipe.getIngredientsToRemove());
-//        model.addAttribute("stringList", stringList);
-//        return "recipe/create";
-//    }
-//
-//    @PostMapping("/{productId}/create")
-//    public String postCreateNewRecipe(@ModelAttribute("recipeIngredients") List<Ingredient> recipeIngredients) {
-//        recipeIngredients.stream().forEach(System.out::println);
-//        return "redirect:/{productId}/create";
-//    }
-//
-//    @ModelAttribute("recipeIngredients")
-//    public List<Ingredient> getIngredients() {
-//        return new ArrayList<>();
-//    }
+    @PostMapping("/{productId}/{recipeId}/delete")
+    public String postDeleteRecipe(@PathVariable Long productId, @PathVariable Long recipeId) {
+        Product product = productService.findById(productId);
+        recipeService.delete(productId, recipeId);
+        return "redirect:/products/" + product.getUser().getId() + "/{productId}";
+    }
 
 }

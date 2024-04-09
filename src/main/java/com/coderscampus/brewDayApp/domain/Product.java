@@ -15,7 +15,7 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	@OneToMany(mappedBy = "product", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@OneToMany(mappedBy = "product", cascade = {CascadeType.MERGE})
 	@JsonIgnoreProperties("product")
 	private List<Recipe> recipes = new ArrayList<>();
 	@OneToMany(mappedBy = "product", orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.PERSIST})

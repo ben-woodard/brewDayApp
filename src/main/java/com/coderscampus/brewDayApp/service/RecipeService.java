@@ -36,14 +36,20 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
-    public Recipe createRecipeProductRelationship(Recipe recipe, Long productId) {
+    public Recipe saveRecipeProductRelationship(Recipe recipe, Long productId) {
         Product product = productService.findById(productId);
         product.getRecipes().add(recipe);
         recipe.setProduct(product);
         return save(recipe);
     }
 
-    public Recipe createRecipeIngredientRelationship(RecipeDTO recipeDTO, Long recipeId) {
+    public Recipe updateRecipeName(Recipe recipe, Long recipeId) {
+        Recipe savedRecipe = recipeRepo.findById(recipeId).orElse(null);
+        savedRecipe.setRecipeName(recipe.getRecipeName());
+        return save(savedRecipe);
+    }
+
+    public Recipe saveRecipeIngredientRelationship(RecipeDTO recipeDTO, Long recipeId) {
         Recipe recipe = recipeRepo.findById(recipeId).orElse(null);
         Ingredient ingredient = ingredientService.findById(recipeDTO.getIngredientId());
         ingredient.getRecipes().add(recipe);
@@ -60,4 +66,11 @@ public class RecipeService {
                 ));
     }
 
+    public void delete(Long productId, Long recipeId) {
+        Recipe recipe = findById(recipeId);
+        Product product = recipe.getProduct();
+        product.getRecipes().remove(recipe);
+        recipe.getIngredients().removeAll(recipe.getIngredients());
+        recipeRepo.delete(recipe);
+    }
 }

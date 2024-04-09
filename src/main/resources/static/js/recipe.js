@@ -1,4 +1,4 @@
-const open = document.getElementById('ingredient-add-open');
+const open = document.getElementById('modal-add-open');
 const modalContainer = document.getElementById('create-modal-container');
 const create= document.getElementById('create-modal-close');
 const close = document.getElementById('close-create-modal')

@@ -14,7 +14,7 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ingredientId;
     private String ingredientName;
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "ingredients", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Recipe> recipes = new ArrayList<>();
     private Double amountInStock;
     @ManyToOne
