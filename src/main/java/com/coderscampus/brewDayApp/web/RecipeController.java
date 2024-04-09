@@ -1,7 +1,6 @@
 package com.coderscampus.brewDayApp.web;
 
 import com.coderscampus.brewDayApp.domain.*;
-import com.coderscampus.brewDayApp.service.IngredientService;
 import com.coderscampus.brewDayApp.service.ProductService;
 import com.coderscampus.brewDayApp.service.RecipeService;
 import com.coderscampus.brewDayApp.service.UserServiceImpl;
@@ -17,15 +16,13 @@ public class RecipeController {
 
     private final UserServiceImpl userService;
     private final ProductService productService;
-    private final IngredientService ingredientService;
     private final RecipeService recipeService;
 
 
     @Autowired
-    public RecipeController(UserServiceImpl userService, ProductService productService, IngredientService ingredientService, RecipeService recipeService) {
+    public RecipeController(UserServiceImpl userService, ProductService productService, RecipeService recipeService) {
         this.userService = userService;
         this.productService = productService;
-        this.ingredientService = ingredientService;
         this.recipeService = recipeService;
     }
 
@@ -41,9 +38,9 @@ public class RecipeController {
     }
 
     @PostMapping("/create")
-    public String createNewRecipeFromRecipeHome(@ModelAttribute RecipeDTO recipeDTO, @ModelAttribute Recipe recipe){
+    public String createNewRecipeFromRecipeHome(@ModelAttribute RecipeDTO recipeDTO, @ModelAttribute Recipe recipe) {
         Recipe savedRecipe = recipeService.saveRecipeProductRelationship(recipe, recipeDTO.getProductId());
-        return "redirect:/recipes/"+ recipe.getProduct().getProductId() + "/" + savedRecipe.getRecipeId();
+        return "redirect:/recipes/" + recipe.getProduct().getProductId() + "/" + savedRecipe.getRecipeId();
     }
 
     @PostMapping("/{productId}/create")
@@ -82,7 +79,7 @@ public class RecipeController {
     @PostMapping("/{productId}/{recipeId}/delete")
     public String postDeleteRecipe(@PathVariable Long productId, @PathVariable Long recipeId) {
         Product product = productService.findById(productId);
-        recipeService.delete(productId, recipeId);
+        recipeService.delete(recipeId);
         return "redirect:/products/" + product.getUser().getId() + "/{productId}";
     }
 

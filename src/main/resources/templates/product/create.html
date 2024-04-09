@@ -31,10 +31,11 @@
     <div>
         <h1 th:text="${product.productName}"></h1>
         <h3>Recipes</h3>
-        <button id="create-recipe-open" th:href="@{/recipes/{productId}/create (productId = ${product.productId})}">Add
-            a
-            recipe
-        </button>
+        <button id="create-recipe-open" th:href="@{/recipes/{productId}/create (productId = ${product.productId})}">Add a recipe</button>
+        <form method="post" th:action="@{/products/{productId}/delete (productId=${product.productId})}">
+            <button type="submit">Delete Product</button>
+        </form>
+
         <div th:if="${#lists.size(product.recipes) > 0}">
             <table>
                 <tr>
@@ -42,7 +43,8 @@
                 </tr>
                 <tr th:each="rec : ${product.recipes}">
                     <td><a th:text="${rec.recipeName}"
-                    th:href="@{/recipes/{productId}/{recipeId} (productId=${product.productId}, recipeId=${rec.recipeId})}"></a></td>
+                           th:href="@{/recipes/{productId}/{recipeId} (productId=${product.productId}, recipeId=${rec.recipeId})}"></a>
+                    </td>
                 </tr>
             </table>
         </div>

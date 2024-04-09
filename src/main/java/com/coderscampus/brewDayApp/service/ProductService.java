@@ -46,4 +46,11 @@ public class ProductService {
     public Product findById(Long productId) {
         return productRepo.findById(productId).orElse(null);
     }
+
+    public void delete(Product product) {
+        User user =  product.getUser();
+        user.getProducts().remove(product);
+        product.getRecipes().removeAll(product.getRecipes());
+        productRepo.delete(product);
+    }
 }

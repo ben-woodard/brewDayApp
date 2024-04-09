@@ -38,14 +38,6 @@ public class ProductController {
         return "product/home";
     }
 
-//    @GetMapping("/{userId}/create")
-//    public String getCreateProduct(ModelMap model, @PathVariable Integer userId) {
-//        User user = userService.findUserById(userId).orElse(null);
-//        model.addAttribute("recipe", new Recipe());
-//        model.addAttribute("product", new Product());
-//        return "product/create";
-//    }
-
     @PostMapping("/{userId}/create")
     public String postCreateProductByName(@ModelAttribute Product product, @PathVariable Integer userId) {
         Product dbProduct = productService.createProductUserRelationship(product, userId);
@@ -60,6 +52,21 @@ public class ProductController {
         model.addAttribute("user", user);
         return "product/create";
     }
+
+    @PostMapping("{productId}/delete")
+    public String postProductDelete(@PathVariable Long productId) {
+        Product product = productService.findById(productId);
+        productService.delete(product);
+        return"redirect:/products/" +product.getUser().getId();
+    }
+
+    //    @GetMapping("/{userId}/create")
+//    public String getCreateProduct(ModelMap model, @PathVariable Integer userId) {
+//        User user = userService.findUserById(userId).orElse(null);
+//        model.addAttribute("recipe", new Recipe());
+//        model.addAttribute("product", new Product());
+//        return "product/create";
+//    }
 
 
 }

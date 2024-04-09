@@ -30,12 +30,6 @@ public class RecipeService {
         return recipeRepo.findById(recipeId).orElse(null);
     }
 
-    public List<Recipe> findAllRecipesByUser(User user) {
-        return user.getProducts().stream()
-                .flatMap(product -> product.getRecipes().stream())
-                .collect(Collectors.toList());
-    }
-
     public Recipe saveRecipeProductRelationship(Recipe recipe, Long productId) {
         Product product = productService.findById(productId);
         product.getRecipes().add(recipe);
@@ -50,23 +44,30 @@ public class RecipeService {
     }
 
     public Recipe saveRecipeIngredientRelationship(RecipeDTO recipeDTO, Long recipeId) {
-        Recipe recipe = recipeRepo.findById(recipeId).orElse(null);
+        Recipe recipe = findById(recipeId);
         Ingredient ingredient = ingredientService.findById(recipeDTO.getIngredientId());
         ingredient.getRecipes().add(recipe);
         recipe.getIngredients().add(ingredient);
         recipe.getIngredientsToRemove().put(ingredient.getIngredientId(), recipeDTO.getAmount());
         return save(recipe);
+
     }
 
     public Map<Ingredient, Double> getMapOfRecipeIngredientsAndAmounts(Recipe recipe) {
-       return recipe.getIngredientsToRemove().entrySet().stream()
+        return recipe.getIngredientsToRemove().entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> ingredientService.findById(entry.getKey()),
                         Map.Entry::getValue
                 ));
     }
 
-    public void delete(Long productId, Long recipeId) {
+    public List<Recipe> findAllRecipesByUser(User user) {
+        return user.getProducts().stream()
+                .flatMap(product -> product.getRecipes().stream())
+                .collect(Collectors.toList());
+    }
+
+    public void delete(Long recipeId) {
         Recipe recipe = findById(recipeId);
         Product product = recipe.getProduct();
         product.getRecipes().remove(recipe);
