@@ -30,7 +30,7 @@ public class IngredientService {
         User user = userService.findUserById(userId).orElse(null);
         ingredient.setUser(user);
         user.getIngredients().add(ingredient);
-        return save(ingredient);
+        return ingredientRepo.save(ingredient);
     }
 
     public void delete(Ingredient ingredient, User user) {

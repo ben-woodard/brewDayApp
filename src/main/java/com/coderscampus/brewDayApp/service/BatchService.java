@@ -3,7 +3,6 @@ package com.coderscampus.brewDayApp.service;
 import com.coderscampus.brewDayApp.domain.*;
 import com.coderscampus.brewDayApp.repository.BatchRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +32,8 @@ public class BatchService {
 
     public Batch createNewBatch(Batch batch, BatchDTO batchDTO) {
         Product product = productService.findById(batchDTO.getProductId());
-        createBatchTurns(batch);
         batch.setProduct(product);
+        createBatchTurns(batch);
         product.getBatches().add(batch);
         return batchRepo.save(batch);
     }
@@ -42,7 +41,10 @@ public class BatchService {
     private void createBatchTurns(Batch batch) {
         int i = 0;
         while(i < batch.getNumberOfTurns()) {
-            batch.getTurns().add(new Turn());
+            Turn turn = new Turn();
+            batch.getTurns().add(turn);
+            turn.setBatch(batch);
+            i++;
         }
     }
 }

@@ -41,7 +41,7 @@ public class ProductService {
         User user = userService.findUserById(userId).orElse(null);
         product.setUser(user);
         user.getProducts().add(product);
-        return save(product);
+        return productRepo.save(product);
     }
 
     public void delete(Product product) {

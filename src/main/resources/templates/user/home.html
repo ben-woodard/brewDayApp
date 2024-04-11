@@ -34,10 +34,24 @@
     <a method="get" th:href="@{/createbatch}">Add Batch To Schedule</a>
 
     <div th:if="${#lists.size(batches) > 0}">
-        <div th:each="batch : ${batches}">
-            <span th:text="${batch.batchNumber}"></span>
-            <span th:text="${batch.product.productName}"></span>
-        </div>
+        <table>
+            <tr>
+                <th>Batch No.</th>
+                <th>Start Date</th>
+                <th>Product</th>
+                <th>Tank Name</th>
+                <th>No. Turns</th>
+                <th>Edit Batch</th>
+            </tr>
+            <tr th:each="batch : ${batches}">
+                <td><a th:text="${batch.batchNumber}"></a></td>
+                <td th:text="${batch.startDate}"></td>
+                <td th:text="${batch.product.productName}"></td>
+                <td th:text="${batch.tankName}"></td>
+                <td th:text="${batch.numberOfTurns}"></td>
+
+            </tr>
+        </table>
     </div>
 </section>
 <!--Create Batch Modal-->
@@ -69,7 +83,7 @@
                 </div>
                 <div>
                     <label>Tank/Vessel:</label>
-                    <input type="number" th:field="${batch.tankName}">
+                    <input type="text" th:field="${batch.tankName}">
                 </div>
                 <div>
                     <label>Number of Turns:</label>

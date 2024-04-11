@@ -49,7 +49,7 @@ public class RecipeService {
         ingredient.getRecipes().add(recipe);
         recipe.getIngredients().add(ingredient);
         recipe.getIngredientsToRemove().put(ingredient.getIngredientId(), recipeDTO.getAmount());
-        return save(recipe);
+        return recipeRepo.save(recipe);
 
     }
 
