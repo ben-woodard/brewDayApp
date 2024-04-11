@@ -1,9 +1,6 @@
 package com.coderscampus.brewDayApp.service;
 
-import com.coderscampus.brewDayApp.domain.Batch;
-import com.coderscampus.brewDayApp.domain.BatchDTO;
-import com.coderscampus.brewDayApp.domain.Product;
-import com.coderscampus.brewDayApp.domain.User;
+import com.coderscampus.brewDayApp.domain.*;
 import com.coderscampus.brewDayApp.repository.BatchRepository;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +40,9 @@ public class BatchService {
     }
 
     private void createBatchTurns(Batch batch) {
-
+        int i = 0;
+        while(i < batch.getNumberOfTurns()) {
+            batch.getTurns().add(new Turn());
+        }
     }
 }
