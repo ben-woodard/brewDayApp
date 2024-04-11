@@ -6,11 +6,8 @@ import com.coderscampus.brewDayApp.domain.User;
 import com.coderscampus.brewDayApp.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -28,6 +25,10 @@ public class ProductService {
         return productRepo.save(product);
     }
 
+    public Product findById(Long productId) {
+        return productRepo.findById(productId).orElse(null);
+    }
+
     public List<Batch> findProductBatches(User user) {
         List<Batch> batches = new ArrayList<>();
         user.getProducts().stream()
@@ -41,10 +42,6 @@ public class ProductService {
         product.setUser(user);
         user.getProducts().add(product);
         return save(product);
-    }
-
-    public Product findById(Long productId) {
-        return productRepo.findById(productId).orElse(null);
     }
 
     public void delete(Product product) {

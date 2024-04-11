@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8"/>
     <title>[[${user.companyName}]]Dashboard</title>
-    <link href="" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/css/product.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
 <nav>
@@ -25,14 +28,61 @@
 </nav>
 <h1 th:text="${user.companyName}"></h1>
 <section>
-    <a method="get" th:href="@{/createbatch}">Add Batch To Schedule</a>
-</section>
-<div th:if="${#lists.size(batches) > 0}">
-    <div th:each="batch : ${batches}">
-        <span th:text="${batch.batchNumber}"></span>
-        <span th:text="${batch.product.productName}"></span>
+    <div>
+        <button id="create-modal-open">Add Batch To Schedule</button>
     </div>
-</div>
+    <a method="get" th:href="@{/createbatch}">Add Batch To Schedule</a>
 
+    <div th:if="${#lists.size(batches) > 0}">
+        <div th:each="batch : ${batches}">
+            <span th:text="${batch.batchNumber}"></span>
+            <span th:text="${batch.product.productName}"></span>
+        </div>
+    </div>
+</section>
+<!--Create Batch Modal-->
+<section>
+    <div class="create-modal-container" id="create-modal-container">
+        <div class="create-modal">
+            <h2>New Batch</h2>
+            <form method="post" th:action="@{/batches/{userId}/create (userId=${user.id})}">
+                <div>
+                    <label>Batch Number:</label>
+                    <input type="number" th:field="${batch.batchNumber}">
+                </div>
+                <div>
+                    <label>Batch Start Date:</label>
+                    <input type="date" th:field="${batch.startDate}">
+                </div>
+                <div>
+                    <label>Batch End Date:</label>
+                    <input type="date" th:field="${batch.endDate}">
+                </div>
+                <div>
+                    <label>Product Brand:</label>
+                    <select th:field="*{batchDTO.productId}" required>
+                        <option th:each="product: ${products}"
+                                th:value="${product.productId}"
+                                th:text="${product.productName}"
+                        ></option>
+                    </select>
+                </div>
+                <div>
+                    <label>Tank/Vessel:</label>
+                    <input type="number" th:field="${batch.tankName}">
+                </div>
+                <div>
+                    <label>Number of Turns:</label>
+                    <input type="number" th:field="${batch.numberOfTurns}">
+                </div>
+                <div>
+                    <button type="submit" id="create-modal-close">Add Batch To Schedule</button>
+                </div>
+            </form>
+            <button id="close-create-modal">Cancel</button>
+        </div>
+    </div>
+</section>
+<script src="/js/productHome.js"></script>
 </body>
 </html>

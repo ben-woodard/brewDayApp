@@ -1,12 +1,12 @@
 package com.coderscampus.brewDayApp.web;
 
 import com.coderscampus.brewDayApp.domain.Batch;
+import com.coderscampus.brewDayApp.domain.BatchDTO;
 import com.coderscampus.brewDayApp.domain.Product;
 import com.coderscampus.brewDayApp.domain.User;
 import com.coderscampus.brewDayApp.service.BatchService;
 import com.coderscampus.brewDayApp.service.ProductService;
 import com.coderscampus.brewDayApp.service.UserServiceImpl;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,9 +35,13 @@ public class UserController {
         if(user == null) {
             return "redirect:/signin";
         }
-        List<Batch> batches = productService.findProductBatches(user);
-        model.put("batches", batches);
-        model.put("user", user);
+        List<Batch> batches = batchService.findAllByUserId(userId);
+        List<Product> products = user.getProducts();
+        model.addAttribute("batch", new Batch());
+        model.addAttribute("batchDTO", new BatchDTO());
+        model.addAttribute("batches", batches);
+        model.addAttribute("products", products);
+        model.addAttribute("user", user);
         return "user/home";
     }
 }

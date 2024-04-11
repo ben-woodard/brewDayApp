@@ -1,10 +1,9 @@
-const productOpen = document.getElementById('create-product-open')
+const open = document.getElementById('create-modal-open')
 const modalContainer = document.getElementById('create-modal-container');
 const create = document.getElementById('create-modal-close');
 const close = document.getElementById('close-create-modal')
 
-
-productOpen.addEventListener('click', () => {
+open.addEventListener('click', () => {
     modalContainer.classList.add('show');
 });
 
