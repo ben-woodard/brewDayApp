@@ -11,7 +11,7 @@
 <body>
 <nav>
     <div>
-        <a href="th:">Batches</a>
+        <a th:href="@{/home/{userId} (userId=${user.id})}">Home</a>
     </div>
     <div>
         <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
@@ -38,7 +38,6 @@
                 <th>Product</th>
                 <th>Tank Name</th>
                 <th>No. Turns</th>
-                <th>Edit Batch</th>
             </tr>
             <tr th:each="batch : ${todaysBatches}">
                 <td>

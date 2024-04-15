@@ -45,6 +45,8 @@ public class BatchService {
         int i = 0;
         while (i < batch.getNumberOfTurns()) {
             Turn turn = new Turn();
+            turn.setTurnNumber(i + 1);
+            turn.setTurnComplete(false);
             batch.getTurns().add(turn);
             turn.setBatch(batch);
             i++;

@@ -8,12 +8,21 @@ public class Turn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long turnId;
+    private Integer turnNumber;
     private Boolean turnComplete;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id")
     private Batch batch;
 
     public Turn() {
+    }
+
+    public Integer getTurnNumber() {
+        return turnNumber;
+    }
+
+    public void setTurnNumber(Integer turnNumber) {
+        this.turnNumber = turnNumber;
     }
 
     public Long getTurnId() {

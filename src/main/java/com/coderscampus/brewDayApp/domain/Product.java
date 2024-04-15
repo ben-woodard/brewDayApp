@@ -11,6 +11,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long productId;
 	private String productName;
+	private Long defaultRecipeId;
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -21,6 +22,14 @@ public class Product {
 	@JsonIgnoreProperties("product")
 	private List<Batch> batches = new ArrayList<>();
 	private String selectedRecipe;
+
+	public Long getDefaultRecipeId() {
+		return defaultRecipeId;
+	}
+
+	public void setDefaultRecipeId(Long defaultRecipeId) {
+		this.defaultRecipeId = defaultRecipeId;
+	}
 
 	public Product(String productName) {
 		this.productName = productName;

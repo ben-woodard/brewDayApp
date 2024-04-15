@@ -4,6 +4,7 @@ public class RecipeDTO {
     private Long productId;
     private Long ingredientId;
     private Double amount;
+    private Long defaultRecipeId;
 
     public Long getProductId() {
         return productId;
@@ -27,5 +28,13 @@ public class RecipeDTO {
 
     public void setIngredientId(Long ingredientId) {
         this.ingredientId = ingredientId;
+    }
+
+    public Long getDefaultRecipeId() {
+        return defaultRecipeId;
+    }
+
+    public void setDefaultRecipeId(Long defaultRecipeId) {
+        this.defaultRecipeId = defaultRecipeId;
     }
 }

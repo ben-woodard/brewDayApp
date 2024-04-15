@@ -6,7 +6,7 @@
 </head>
 <nav>
     <div>
-        <a href="th:">Batches</a>
+        <a th:href="@{/home/{userId} (userId=${user.id})}">Home</a>
     </div>
     <div>
         <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
@@ -21,6 +21,44 @@
         <button type="submit">Logout</button>
     </form>
 </nav>
+<section>
+    <h2>Batch Number: [[${batch.batchNumber}]]</h2>
+    <div>
+        <h3>Turns</h3>
+        <div th:each="turn : ${batch.turns}">
+            <form method="post" >
+                <table>
+                    <tr>
+                        <th>Turn Number</th>
+                        <th>Turn Complete</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${turn.turnNumber}"></td>
+                        <td th:if="${turn.turnComplete} == true">Complete</td>
+                        <td th:unless="${turn.turnComplete} == true">Not Complete</td>
+                        <td><input type="submit" value="Complete Turn"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <table>
+            <tr>
+                <th>Scheduled Date</th>
+                <th>Product Name</th>
+                <th>Recipe</th>
+            </tr>
+            <tr>
+                <td th:text="${batch.startDate}"></td>
+                <td th:text="${batch.product.productName}"></td>
+                <td th:text="${defaultRecipe.recipeName}"></td>
+            </tr>
+
+        </table>
+    </div>
+</section>
 <body>
 </body>
 </html>

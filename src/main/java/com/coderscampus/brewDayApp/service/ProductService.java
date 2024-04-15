@@ -1,8 +1,6 @@
 package com.coderscampus.brewDayApp.service;
 
-import com.coderscampus.brewDayApp.domain.Batch;
-import com.coderscampus.brewDayApp.domain.Product;
-import com.coderscampus.brewDayApp.domain.User;
+import com.coderscampus.brewDayApp.domain.*;
 import com.coderscampus.brewDayApp.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +47,10 @@ public class ProductService {
         user.getProducts().remove(product);
         product.getRecipes().removeAll(product.getRecipes());
         productRepo.delete(product);
+    }
+
+    public void setDefaultRecipe(Product savedProduct, RecipeDTO recipeDTO) {
+        savedProduct.setDefaultRecipeId(recipeDTO.getDefaultRecipeId());
+        productRepo.save(savedProduct);
     }
 }

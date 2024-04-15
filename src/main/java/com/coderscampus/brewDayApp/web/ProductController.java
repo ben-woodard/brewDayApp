@@ -2,6 +2,7 @@ package com.coderscampus.brewDayApp.web;
 
 import com.coderscampus.brewDayApp.domain.Product;
 import com.coderscampus.brewDayApp.domain.Recipe;
+import com.coderscampus.brewDayApp.domain.RecipeDTO;
 import com.coderscampus.brewDayApp.domain.User;
 import com.coderscampus.brewDayApp.service.ProductService;
 import com.coderscampus.brewDayApp.service.RecipeService;
@@ -41,15 +42,21 @@ public class ProductController {
     @PostMapping("/{userId}/create")
     public String postCreateProductByName(@ModelAttribute Product product, @PathVariable Integer userId) {
         Product dbProduct = productService.createProductUserRelationship(product, userId);
-        return "redirect:/products/{userId}/"+dbProduct.getProductId();
+        return "redirect:/products/{userId}/" + dbProduct.getProductId();
     }
 
     @GetMapping("/{userId}/{productId}")
-    public String getProductInformation (ModelMap model, @PathVariable Long productId, @PathVariable Integer userId) {
+    public String getProductInformation(ModelMap model, @PathVariable Long productId, @PathVariable Integer userId) {
         User user = userService.findUserById(userId).orElse(null);
+        Product product = productService.findById(productId);
         model.addAttribute("recipe", new Recipe());
-        model.addAttribute("product", productService.findById(productId));
+        model.addAttribute("product", product);
         model.addAttribute("user", user);
+        model.addAttribute("recipeDTO", new RecipeDTO());
+        if (product.getDefaultRecipeId() != null) {
+            Recipe defaultRecipe = recipeService.findById(product.getDefaultRecipeId());
+            model.addAttribute("defaultRecipe", defaultRecipe);
+        }
         return "product/create";
     }
 
@@ -57,16 +64,15 @@ public class ProductController {
     public String postProductDelete(@PathVariable Long productId) {
         Product product = productService.findById(productId);
         productService.delete(product);
-        return"redirect:/products/" +product.getUser().getId();
+        return "redirect:/products/" + product.getUser().getId();
     }
 
-    //    @GetMapping("/{userId}/create")
-//    public String getCreateProduct(ModelMap model, @PathVariable Integer userId) {
-//        User user = userService.findUserById(userId).orElse(null);
-//        model.addAttribute("recipe", new Recipe());
-//        model.addAttribute("product", new Product());
-//        return "product/create";
-//    }
-
+    @PostMapping("{productId}/setdefaultrecipe")
+    public String setDefaultRecipe(@PathVariable Long productId, @ModelAttribute RecipeDTO recipeDTO) {
+        Product savedProduct = productService.findById(productId);
+        User user = savedProduct.getUser();
+        productService.setDefaultRecipe(savedProduct, recipeDTO);
+        return "redirect:/products/" + user.getId() + "/{productId}";
+    }
 
 }
