@@ -2,7 +2,6 @@ package com.coderscampus.brewDayApp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ public class Batch {
     private LocalDate startDate;
     private LocalDate endDate;
     private String tankName;
+    private Boolean turnsComplete;
     private Boolean batchComplete;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -27,6 +27,14 @@ public class Batch {
     private List<Turn> turns = new ArrayList<>();
 
     public Batch() {
+    }
+
+    public Boolean getTurnsComplete() {
+        return turnsComplete;
+    }
+
+    public void setTurnsComplete(Boolean turnsComplete) {
+        this.turnsComplete = turnsComplete;
     }
 
     public long getBatchId() {
@@ -107,6 +115,7 @@ public class Batch {
                 "batchId=" + batchId +
                 ", batchNumber=" + batchNumber +
                 ", numberOfTurns=" + numberOfTurns +
+                ", turnsComplete=" + turnsComplete +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", tankName='" + tankName + '\'' +

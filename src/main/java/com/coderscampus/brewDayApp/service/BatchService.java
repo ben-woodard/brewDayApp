@@ -3,6 +3,9 @@ package com.coderscampus.brewDayApp.service;
 import com.coderscampus.brewDayApp.domain.*;
 import com.coderscampus.brewDayApp.repository.BatchRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +43,22 @@ public class BatchService {
 
     private void createBatchTurns(Batch batch) {
         int i = 0;
-        while(i < batch.getNumberOfTurns()) {
+        while (i < batch.getNumberOfTurns()) {
             Turn turn = new Turn();
             batch.getTurns().add(turn);
             turn.setBatch(batch);
             i++;
         }
+    }
+
+    public List<Batch> findTodaysBatches(List<Batch> batches) {
+        LocalDate date = LocalDate.now();
+        return batches.stream()
+                .filter(batch -> (batch.getStartDate()).equals(date))
+                .collect(Collectors.toList());
+    }
+
+    public Batch findById(Long batchId) {
+        return batchRepo.findById(batchId).orElse(null);
     }
 }

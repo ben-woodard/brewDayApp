@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start Batch</title>
+</head>
+<nav>
+    <div>
+        <a href="th:">Batches</a>
+    </div>
+    <div>
+        <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
+    </div>
+    <div>
+        <a th:href="@{/recipes/{userId}/home (userId = ${user.id})}">Recipes</a>
+    </div>
+    <div>
+        <a th:href="@{/inventory/{userId}/home (userId = ${user.id})}">Inventory</a>
+    </div>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+<body>
+</body>
+</html>

@@ -6,10 +6,7 @@ import com.coderscampus.brewDayApp.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/batches")
@@ -26,5 +23,12 @@ public class BatchController {
     public String postCreateBatch(@ModelAttribute Batch batch, @ModelAttribute BatchDTO batchDTO) {
         batchService.createNewBatch(batch, batchDTO);
         return "redirect:/home/{userId}";
+    }
+
+    @GetMapping("/{batchId}/startbatch")
+    public String getStartBatch(ModelMap model, @PathVariable Long batchId) {
+        Batch batch = batchService.findById(batchId);
+        model.addAttribute("batch", batch);
+        return "batch/start-batch";
     }
 }

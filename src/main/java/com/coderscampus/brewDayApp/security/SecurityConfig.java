@@ -72,6 +72,7 @@ public class SecurityConfig {
                                 .requestMatchers("/products/**").authenticated()
                                 .requestMatchers("/recipes/**").authenticated()
                                 .requestMatchers("/inventory/**").authenticated()
+                                .requestMatchers("/batches/**").authenticated()
                                 .requestMatchers("/register").permitAll()
                                 .anyRequest().permitAll()
                 )

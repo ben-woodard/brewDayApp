@@ -28,13 +28,39 @@
 </nav>
 <h1 th:text="${user.companyName}"></h1>
 <section>
+    <div th:if="${#lists.size(todaysBatches) > 0}">
+        <table>
+            <h2>Today's Tasks</h2>
+            <tr>
+                <th>Start Brew</th>
+                <th>Batch No.</th>
+                <th>Start Date</th>
+                <th>Product</th>
+                <th>Tank Name</th>
+                <th>No. Turns</th>
+                <th>Edit Batch</th>
+            </tr>
+            <tr th:each="batch : ${todaysBatches}">
+                <td>
+                    <a th:href="@{/batches/{batchId}/startbatch (batchId=${batch.batchId})}">
+                        <button>Start Batch</button>
+                    </a>
+                </td>
+                <td><a th:text="${batch.batchNumber}"></a></td>
+                <td th:text="${batch.startDate}"></td>
+                <td th:text="${batch.product.productName}"></td>
+                <td th:text="${batch.tankName}"></td>
+                <td th:text="${batch.numberOfTurns}"></td>
+
+            </tr>
+        </table>
+    </div>
     <div>
         <button id="create-modal-open">Add Batch To Schedule</button>
     </div>
-    <a method="get" th:href="@{/createbatch}">Add Batch To Schedule</a>
-
     <div th:if="${#lists.size(batches) > 0}">
         <table>
+            <h2>Schedule</h2>
             <tr>
                 <th>Batch No.</th>
                 <th>Start Date</th>
