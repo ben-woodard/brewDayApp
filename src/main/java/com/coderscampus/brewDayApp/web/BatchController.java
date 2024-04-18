@@ -45,7 +45,9 @@ public class BatchController {
 
     @PostMapping("/{batchId}/update")
     public String postUpdateBatchInformation(@PathVariable Long batchId, @ModelAttribute Batch batch) {
-        Batch savedBatch = batchService.findById(batchId);
-        return "redirect:/batches/{batchId}/startBatch";
+        batchService.save(batch);
+        Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
+        System.out.println("hello");
+        return "redirect:/batches/" + batchId + "/startbatch";
     }
 }

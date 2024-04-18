@@ -86,6 +86,7 @@ public class BatchService {
       boolean allTurnsComplete = batch.getTurns().stream().allMatch(Turn::getTurnComplete);
       if(allTurnsComplete) {
           batch.setTurnsComplete(true);
+          batchRepo.save(batch);
       }
     }
 }

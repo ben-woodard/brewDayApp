@@ -46,7 +46,7 @@
                         <td th:text="${recipe.recipeName}"></td>
                         <td th:if="${turn.turnComplete} == true">Complete</td>
                         <td th:unless="${turn.turnComplete} == true">Not Complete</td>
-                        <td th:if="${turn.batch.startDate} == ${currentDate}"><input type="submit" value="Complete Turn"/></td>
+                        <td th:if="${turn.batch.startDate} == ${currentDate}" th:unless="${turn.turnComplete} == true"><input type="submit" value="Complete Turn"/></td>
                     </tr>
                 </table>
             </form>
@@ -120,7 +120,7 @@
                     <input type="number" th:field="${batch.numberOfTurns}">
                 </div>
                 <div>
-                    <button type="submit" id="create-modal-close">Add Ingredient</button>
+                    <button type="submit" id="create-modal-close">Update Batch</button>
                 </div>
             </form>
             <button id="close-create-modal">Cancel</button>
