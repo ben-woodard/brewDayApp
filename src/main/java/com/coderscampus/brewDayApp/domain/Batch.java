@@ -19,6 +19,7 @@ public class Batch {
     private String tankName;
     private Boolean turnsComplete;
     private Boolean batchComplete;
+    private Long selectedRecipeId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
@@ -27,6 +28,14 @@ public class Batch {
     private List<Turn> turns = new ArrayList<>();
 
     public Batch() {
+    }
+
+    public Long getSelectedRecipeId() {
+        return selectedRecipeId;
+    }
+
+    public void setSelectedRecipeId(Long selectedRecipeId) {
+        this.selectedRecipeId = selectedRecipeId;
     }
 
     public Boolean getTurnsComplete() {

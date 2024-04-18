@@ -12,7 +12,7 @@
 <body>
 <nav>
     <div>
-        <a href="th:">Batches</a>
+        <a th:href="@{/home/{userId} (userId=${user.id})}">Home</a>
     </div>
     <div>
         <a th:href="@{/products/{userId} (userId = ${user.id})}">Products</a>
@@ -27,7 +27,6 @@
         <button type="submit">Logout</button>
     </form>
 </nav>
-
 <section>
     <button id="modal-add-open">Create New Recipe</button>
     <h1>[[${user.companyName}]] Recipes</h1>
@@ -40,7 +39,7 @@
             </tr>
             <tr method="get" th:each="recipe : ${recipesList}">
                 <td>
-                    <a th:href="@{/recipes/{userId}/{recipeId} (userId = ${user.id}, recipeId=${recipe.recipeId})}"
+                    <a th:href="@{/recipes/{productId}/{recipeId} (productId=${recipe.product.productId}, recipeId=${recipe.recipeId})}"
                        th:text="${recipe.recipeName}"></a>
                 </td>
                 <td th:text="${recipe.product.productName}"></td>
