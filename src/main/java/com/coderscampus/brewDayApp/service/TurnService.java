@@ -25,13 +25,23 @@ public class TurnService {
         turnRepo.save(turn);
     }
 
-    public void deleteTurnsFromBatch(Batch batch, int turnDifference) {
-        int i = 0;
-        while(i < turnDifference) {
-            Turn turn = batch.getTurns().get(batch.getTurns().size() - 1);
-            batch.getTurns().remove(turn);
-            turnRepo.delete(turn);
-            i++;
-        }
+//    public void deleteTurnsFromBatch(Batch batch, int turnDifference) {
+//        int i = 0;
+//        while(i < turnDifference) {
+//            Turn turn = batch.getTurns().get(batch.getTurns().size() - 1);
+//            batch.getTurns().remove(turn);
+//            turnRepo.delete(turn);
+//            i++;
+//        }
+//    }
+
+    public void delete(Turn turn) {
+        turnRepo.delete(turn);
+    }
+
+    public void deleteTurn(Turn turn) {
+        Batch batch = turn.getBatch();
+        batch.getTurns().remove(turn);
+        turnRepo.delete(turn);
     }
 }

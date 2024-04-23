@@ -32,4 +32,12 @@ public class TurnController {
         batchService.checkForAllTurnsComplete(batch);
         return "redirect:/batches/" + batch.getBatchId() + "/startbatch";
     }
+
+    @PostMapping("/{turnId}/delete")
+    public String postDeleteTurn(@PathVariable Long turnId) {
+        Turn turn = turnService.findById(turnId);
+        Long batchId = turn.getBatch().getBatchId();
+        turnService.deleteTurn(turn);
+        return "redirect:/batches/" + batchId + "/startbatch";
+    }
 }

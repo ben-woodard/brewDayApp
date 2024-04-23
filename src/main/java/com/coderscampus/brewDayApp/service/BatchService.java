@@ -64,16 +64,6 @@ public class BatchService {
         }
     }
 
-    private void adjustBatchTurns(Batch batch, Batch savedBatch) {
-        if (batch.getNumberOfTurns() > savedBatch.getNumberOfTurns()) {
-            int turnDifference = batch.getNumberOfTurns() - savedBatch.getNumberOfTurns();
-            createBatchTurns(batch, turnDifference);
-        } else {
-            int turnDifference = savedBatch.getNumberOfTurns() - batch.getNumberOfTurns();
-            turnService.deleteTurnsFromBatch(batch, turnDifference);
-        }
-    }
-
     public List<Batch> findTodaysBatches(List<Batch> batches) {
         LocalDate date = LocalDate.now();
         return batches.stream()
@@ -104,14 +94,38 @@ public class BatchService {
         }
     }
 
-    public void updateBatch(Batch batch, Long batchId) {
+    public Batch updateBatch(Batch batch, Long batchId) {
         Batch savedBatch = batchRepo.findById(batchId).orElse(null);
+        savedBatch.setSelectedRecipeId(batch.getSelectedRecipeId());
+        savedBatch.getTurns().forEach(turn -> {
+            if (!turn.getTurnComplete()) {
+                turn.setRecipeId(batch.getSelectedRecipeId());
+            }
+        });
+        savedBatch.setTankName(batch.getTankName());
+        savedBatch.setBatchNumber(batch.getBatchNumber());
         batch.setTurnsComplete(savedBatch.getTurnsComplete());
         batch.setBatchComplete(savedBatch.getBatchComplete());
-        batch.setProduct(savedBatch.getProduct());
-        if(batch.getNumberOfTurns() != savedBatch.getNumberOfTurns()) {
-            adjustBatchTurns(batch, savedBatch);
-        }
-        batchRepo.save(batch);
+        return batchRepo.save(savedBatch);
     }
+
+    public void deleteBatch(Batch batch) {
+        Product product = batch.getProduct();
+        product.getBatches().remove(batch);
+        batch.getTurns().forEach(turn -> {
+            batch.getTurns().remove(turn);
+            turnService.delete(turn);
+        });
+        batchRepo.delete(batch);
+    }
+
+//    private void adjustBatchTurns(Batch batch, Batch savedBatch) {
+//        if (batch.getNumberOfTurns() > savedBatch.getNumberOfTurns()) {
+//            int turnDifference = batch.getNumberOfTurns() - savedBatch.getNumberOfTurns();
+//            createBatchTurns(batch, turnDifference);
+//        } else {
+//            int turnDifference = savedBatch.getNumberOfTurns() - batch.getNumberOfTurns();
+//            turnService.deleteTurnsFromBatch(batch, turnDifference);
+//        }
+//    }
 }

@@ -29,6 +29,9 @@
 <section>
     <h2>Batch Number: [[${batch.batchNumber}]]</h2>
     <button id="modal-editbatch-open">Edit Batch</button>
+    <form method="post" th:action="@{/batches/{batchId}/delete (batchId=${batch.batchId})}">
+        <input type="submit" value="Delete Batch"/>
+    </form>
     <hr>
     <div>
         <h3>Turns</h3>
@@ -51,15 +54,15 @@
                             <input type="submit" value="Complete Turn"/>
                         </form>
                     </td>
-                    <td>
-                        <form method="post" th:action="@{tur}">
+                    <td th:if="${turn.turnComplete == false}">
+                        <form method="post" th:action="@{/turns/{turnId}/delete (turnId=${turn.turnId})}">
                             <input type="submit" value="Delete Turn"/>
                         </form>
                     </td>
                 </tr>
             </table>
         </div>
-        <button>Add Turn</button>
+        <button id="add-turn-open">Add Turn</button>
     </div>
     <hr>
     <div>
@@ -95,7 +98,32 @@
 </section>
 <!--Modals Section-->
 <section>
-    <div class="create-modal-container" id="create-modal-container">
+    <!--New Turn Modal-->
+    <div class="create-modal-container" id="create-turn-modal-container">
+        <div class="create-modal">
+            <form method="post" th:action="@{batches/{batchId}/createturn (batchId=${batch.batchId})}">
+                <h2>Create Turn</h2>
+                <div>
+                    <label>Product Recipe:</label>
+                    <select th:field="${turn.recipeId}" required>
+                        <option th:each="recipe: ${product.recipes}"
+                                th:value="${recipe.recipeId}"
+                                th:text="${recipe.recipeName}"
+                        ></option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" id="create-turn-modal-close">Update Batch</button>
+                </div>
+            </form>
+            <div>
+                <button id="close-create-turn-modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Edit Batch Information Modal-->
+    <div class="create-modal-container" id="edit-batch-modal-container">
         <div class="create-modal">
             <h2>Edit Batch Information</h2>
             <h3>Product Brand: [[${batch.product.productName}]]</h3>
@@ -131,15 +159,18 @@
                     <label>Tank/Vessel:</label>
                     <input type="text" th:field="${batch.tankName}">
                 </div>
-                <div>
-                    <label>Number of Turns:</label>
-                    <input type="number" th:field="${batch.numberOfTurns}">
-                </div>
+                <!--                <div>-->
+                <!--                    <label>Number of Turns:</label>-->
+                <!--                    <input type="number" th:field="${batch.numberOfTurns}">-->
+                <!--                </div>-->
                 <div>
                     <button type="submit" id="create-modal-close">Update Batch</button>
                 </div>
             </form>
-            <button id="close-create-modal">Cancel</button>
+            <div>
+                <button id="close-create-modal">Cancel</button>
+            </div>
+
         </div>
     </div>
 </section>

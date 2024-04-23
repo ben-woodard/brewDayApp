@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 
 @Controller
@@ -35,6 +34,7 @@ public class BatchController {
         User user = batch.getProduct().getUser();
         Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
         model.addAttribute("batch", batch);
+        model.addAttribute("turn", new Turn());
         model.addAttribute("user", user);
         model.addAttribute("product", batch.getProduct());
         model.addAttribute("recipe", recipe);
@@ -46,10 +46,20 @@ public class BatchController {
 
     @PostMapping("/{batchId}/update")
     public String postUpdateBatchInformation(@PathVariable Long batchId, @ModelAttribute Batch batch) {
-        System.out.println("hello");
         batchService.updateBatch(batch, batchId);
-        Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
-
         return "redirect:/batches/" + batchId + "/startbatch";
+    }
+
+    @PostMapping("/{batchId}/delete")
+    public String postDeleteBatch(@PathVariable Long batchId) {
+        Batch batch = batchService.findById(batchId);
+        Integer userId = batch.getProduct().getUser().getId();
+        batchService.deleteBatch(batch);
+        return "redirect:/home/" + userId;
+    }
+
+    @PostMapping("/{batchId}/createturn")
+    public String postCreateTurn(@PathVariable Long batchId, @ModelAttribute Turn turn) {
+        
     }
 }
