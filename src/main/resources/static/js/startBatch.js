@@ -1,7 +1,7 @@
 const open = document.getElementById('modal-editbatch-open');
 const modalContainer = document.getElementById('create-modal-container');
 const create= document.getElementById('create-modal-close');
-const close = document.getElementById('close-create-modal')
+const close = document.getElementById('close-create-modal');
 
 open.addEventListener('click', () => {
     modalContainer.classList.add('show');

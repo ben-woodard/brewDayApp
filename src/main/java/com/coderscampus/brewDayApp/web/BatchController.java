@@ -40,14 +40,16 @@ public class BatchController {
         model.addAttribute("recipe", recipe);
         model.addAttribute("ingredientsAndAmounts", recipeService.getMapOfRecipeIngredientsAndAmounts(recipe));
         model.addAttribute("currentDate", LocalDate.now());
+        model.addAttribute("batchDTO", new BatchDTO());
         return "batch/start-batch";
     }
 
     @PostMapping("/{batchId}/update")
     public String postUpdateBatchInformation(@PathVariable Long batchId, @ModelAttribute Batch batch) {
-        batchService.save(batch);
-        Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
         System.out.println("hello");
+        batchService.updateBatch(batch, batchId);
+        Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
+
         return "redirect:/batches/" + batchId + "/startbatch";
     }
 }

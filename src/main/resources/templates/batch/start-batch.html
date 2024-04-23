@@ -29,29 +29,39 @@
 <section>
     <h2>Batch Number: [[${batch.batchNumber}]]</h2>
     <button id="modal-editbatch-open">Edit Batch</button>
+    <hr>
     <div>
         <h3>Turns</h3>
         <div th:each="turn : ${batch.turns}">
-            <form method="post" th:action="@{/turns/{turnId}/complete (turnId=${turn.turnId})}">
-                <table>
-                    <tr>
-                        <th>Turn Number</th>
-                        <th>Product</th>
-                        <th>Recipe</th>
-                        <th>Turn Complete</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${turn.turnNumber}"></td>
-                        <td th:text="${product.productName}"></td>
-                        <td th:text="${recipe.recipeName}"></td>
-                        <td th:if="${turn.turnComplete} == true">Complete</td>
-                        <td th:unless="${turn.turnComplete} == true">Not Complete</td>
-                        <td th:if="${turn.batch.startDate} == ${currentDate}" th:unless="${turn.turnComplete} == true"><input type="submit" value="Complete Turn"/></td>
-                    </tr>
-                </table>
-            </form>
+            <table>
+                <tr>
+                    <th>Turn Number</th>
+                    <th>Product</th>
+                    <th>Recipe</th>
+                    <th>Turn Complete</th>
+                </tr>
+                <tr>
+                    <td th:text="${turn.turnNumber}"></td>
+                    <td th:text="${product.productName}"></td>
+                    <td th:text="${recipe.recipeName}"></td>
+                    <td th:if="${turn.turnComplete} == true">Complete</td>
+                    <td th:unless="${turn.turnComplete} == true">Not Complete</td>
+                    <td th:if="${turn.batch.startDate} == ${currentDate}" th:unless="${turn.turnComplete} == true">
+                        <form method="post" th:action="@{/turns/{turnId}/complete (turnId=${turn.turnId})}">
+                            <input type="submit" value="Complete Turn"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" th:action="@{tur}">
+                            <input type="submit" value="Delete Turn"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
         </div>
+        <button>Add Turn</button>
     </div>
+    <hr>
     <div>
         <h3>Batch Recipe: [[${recipe.recipeName}]]</h3>
         <table>
@@ -89,19 +99,25 @@
         <div class="create-modal">
             <h2>Edit Batch Information</h2>
             <h3>Product Brand: [[${batch.product.productName}]]</h3>
+            <div>
+                <span th:text="${batch.startDate}" th:field="${batch.startDate}"></span>
+                <span th:text="${batch.endDate}" th:field="${batch.endDate}"></span>
+            </div>
             <form th:action="@{/batches/{batchId}/update (batchId=${batch.batchId})}" method="post">
                 <div>
                     <label>Batch Number:</label>
                     <input type="number" th:field="${batch.batchNumber}">
                 </div>
-                <div>
-                    <label>Batch Start Date:</label>
-                    <input type="date" th:field="${batch.startDate}">
-                </div>
-                <div>
-                    <label>Batch End Date:</label>
-                    <input type="date" th:field="${batch.endDate}">
-                </div>
+                <input type="hidden" th:field="${batch.startDate}">
+                <input type="hidden" th:field="${batch.endDate}">
+                <!--                <div>-->
+                <!--                    <label>Batch Start Date:</label>-->
+                <!--                    <input type="date" th:field="${batchDTO.newEndDate}">-->
+                <!--                </div>-->
+                <!--                <div>-->
+                <!--                    <label>Batch End Date:</label>-->
+                <!--                    <input type="date" th:field="${batchDTO.newEndDate}" readonly>-->
+                <!--                </div>-->
                 <div>
                     <label>Product Recipe:</label>
                     <select th:field="${batch.selectedRecipeId}" required>
