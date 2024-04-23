@@ -4,7 +4,6 @@ import com.coderscampus.brewDayApp.domain.*;
 import com.coderscampus.brewDayApp.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,22 +45,8 @@ public class BatchService {
         batch.setBatchComplete(false);
         batch.setTurnsComplete(false);
         batch.setSelectedRecipeId(product.getDefaultRecipeId());
-        createBatchTurns(batch, batch.getNumberOfTurns());
         product.getBatches().add(batch);
         return batchRepo.save(batch);
-    }
-
-    private void createBatchTurns(Batch batch, Integer batchTurns) {
-        int i = 0;
-        while (i < batchTurns) {
-            Turn turn = new Turn();
-            turn.setTurnNumber(batch.getTurns().size() + 1);
-            turn.setTurnComplete(false);
-            turn.setRecipeId(batch.getProduct().getDefaultRecipeId());
-            batch.getTurns().add(turn);
-            turn.setBatch(batch);
-            i++;
-        }
     }
 
     public List<Batch> findTodaysBatches(List<Batch> batches) {
@@ -118,6 +103,7 @@ public class BatchService {
         });
         batchRepo.delete(batch);
     }
+
 
 //    private void adjustBatchTurns(Batch batch, Batch savedBatch) {
 //        if (batch.getNumberOfTurns() > savedBatch.getNumberOfTurns()) {

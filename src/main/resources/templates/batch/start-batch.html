@@ -101,11 +101,11 @@
     <!--New Turn Modal-->
     <div class="create-modal-container" id="create-turn-modal-container">
         <div class="create-modal">
-            <form method="post" th:action="@{batches/{batchId}/createturn (batchId=${batch.batchId})}">
+            <form method="post" th:action="@{/batches/{batchId}/createturn (batchId=${batch.batchId})}">
                 <h2>Create Turn</h2>
                 <div>
                     <label>Product Recipe:</label>
-                    <select th:field="${turn.recipeId}" required>
+                    <select th:field="${turnDTO.recipeId}" required>
                         <option th:each="recipe: ${product.recipes}"
                                 th:value="${recipe.recipeId}"
                                 th:text="${recipe.recipeName}"
@@ -113,7 +113,7 @@
                     </select>
                 </div>
                 <div>
-                    <button type="submit" id="create-turn-modal-close">Update Batch</button>
+                    <button type="submit" id="create-turn-modal-close">Add Turn</button>
                 </div>
             </form>
             <div>
@@ -138,14 +138,6 @@
                 </div>
                 <input type="hidden" th:field="${batch.startDate}">
                 <input type="hidden" th:field="${batch.endDate}">
-                <!--                <div>-->
-                <!--                    <label>Batch Start Date:</label>-->
-                <!--                    <input type="date" th:field="${batchDTO.newEndDate}">-->
-                <!--                </div>-->
-                <!--                <div>-->
-                <!--                    <label>Batch End Date:</label>-->
-                <!--                    <input type="date" th:field="${batchDTO.newEndDate}" readonly>-->
-                <!--                </div>-->
                 <div>
                     <label>Product Recipe:</label>
                     <select th:field="${batch.selectedRecipeId}" required>
@@ -159,10 +151,6 @@
                     <label>Tank/Vessel:</label>
                     <input type="text" th:field="${batch.tankName}">
                 </div>
-                <!--                <div>-->
-                <!--                    <label>Number of Turns:</label>-->
-                <!--                    <input type="number" th:field="${batch.numberOfTurns}">-->
-                <!--                </div>-->
                 <div>
                     <button type="submit" id="create-modal-close">Update Batch</button>
                 </div>
