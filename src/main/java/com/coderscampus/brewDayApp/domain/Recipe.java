@@ -1,5 +1,6 @@
 package com.coderscampus.brewDayApp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class Recipe {
     @MapKeyColumn(name = "ingredient_id")
     @Column(name = "amount_to_remove")
     private Map<Long, Double> ingredientsToRemove = new HashMap<>();
+
 
     public Recipe() {
     }
@@ -69,6 +71,7 @@ public class Recipe {
     public void setIngredientsToRemove(Map<Long, Double> ingredientsToRemove) {
         this.ingredientsToRemove = ingredientsToRemove;
     }
+
 
     @Override
     public String toString() {

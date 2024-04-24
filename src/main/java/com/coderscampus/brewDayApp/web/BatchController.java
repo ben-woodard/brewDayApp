@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -37,12 +38,12 @@ public class BatchController {
     public String getStartBatch(ModelMap model, @PathVariable Long batchId) {
         Batch batch = batchService.findById(batchId);
         User user = batch.getProduct().getUser();
-        Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
+        Map<Turn, Recipe> turnRecipes = turnService.createMapOfTurnRecipes(batch);
         model.addAttribute("batch", batch);
         model.addAttribute("user", user);
         model.addAttribute("product", batch.getProduct());
-        model.addAttribute("recipe", recipe);
-        model.addAttribute("ingredientsAndAmounts", recipeService.getMapOfRecipeIngredientsAndAmounts(recipe));
+        model.addAttribute("turnRecipeMap", turnRecipes);
+//        model.addAttribute("ingredientsAndAmounts", recipeService.getMapOfRecipeIngredientsAndAmounts(recipe));
         model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("turnDTO", new TurnDTO());
         return "batch/start-batch";

@@ -35,7 +35,7 @@
     <hr>
     <div>
         <h3>Turns</h3>
-        <div th:each="turn : ${batch.turns}">
+        <div th:each="turn : ${turnRecipeMap}">
             <table>
                 <tr>
                     <th>Turn Number</th>
@@ -44,18 +44,18 @@
                     <th>Turn Complete</th>
                 </tr>
                 <tr>
-                    <td th:text="${turn.turnNumber}"></td>
+                    <td th:text="${turn.key.turnNumber}"></td>
                     <td th:text="${product.productName}"></td>
-                    <td th:text="${recipe.recipeName}"></td>
-                    <td th:if="${turn.turnComplete} == true">Complete</td>
-                    <td th:unless="${turn.turnComplete} == true">Not Complete</td>
-                    <td th:if="${turn.batch.startDate} == ${currentDate}" th:unless="${turn.turnComplete} == true">
-                        <form method="post" th:action="@{/turns/{turnId}/complete (turnId=${turn.turnId})}">
+                    <td th:text="${turn.value.recipeName}"></td>
+                    <td th:if="${turn.key.turnComplete} == true">Complete</td>
+                    <td th:unless="${turn.key.turnComplete} == true">Not Complete</td>
+                    <td th:if="${turn.key.batch.startDate} == ${currentDate}" th:unless="${turn.key.turnComplete} == true">
+                        <form method="post" th:action="@{/turns/{turnId}/complete (turnId=${turn.key.turnId})}">
                             <input type="submit" value="Complete Turn"/>
                         </form>
                     </td>
-                    <td th:if="${turn.turnComplete == false}">
-                        <form method="post" th:action="@{/turns/{turnId}/delete (turnId=${turn.turnId})}">
+                    <td th:if="${turn.key.turnComplete == false}">
+                        <form method="post" th:action="@{/turns/{turnId}/delete (turnId=${turn.key.turnId})}">
                             <input type="submit" value="Delete Turn"/>
                         </form>
                     </td>
@@ -66,19 +66,19 @@
     </div>
     <hr>
     <div>
-        <h3>Batch Recipe: [[${recipe.recipeName}]]</h3>
-        <table>
-            <tr>
-                <th>Ingredient Name</th>
-                <th>Ingredient Type</th>
-                <th>Ingredient Amount</th>
-            </tr>
-            <tr th:each="entry : ${ingredientsAndAmounts}">
-                <td th:text="${entry.key.ingredientName}"></td>
-                <td th:text="${entry.key.ingredientType}"></td>
-                <td th:text="${entry.value}"></td>
-            </tr>
-        </table>
+        <h3>Batch Recipe: </h3>
+<!--        <table>-->
+<!--            <tr>-->
+<!--                <th>Ingredient Name</th>-->
+<!--                <th>Ingredient Type</th>-->
+<!--                <th>Ingredient Amount</th>-->
+<!--            </tr>-->
+<!--            <tr th:each="entry : ${ingredientsAndAmounts}">-->
+<!--                <td th:text="${entry.key.ingredientName}"></td>-->
+<!--                <td th:text="${entry.key.ingredientType}"></td>-->
+<!--                <td th:text="${entry.value}"></td>-->
+<!--            </tr>-->
+<!--        </table>-->
     </div>
     <hr>
     <div>
@@ -91,7 +91,7 @@
             <tr>
                 <td th:text="${batch.startDate}"></td>
                 <td th:text="${batch.product.productName}"></td>
-                <td th:text="${recipe.recipeName}"></td>
+<!--                <td th:text="${recipe.recipeName}"></td>-->
             </tr>
         </table>
     </div>

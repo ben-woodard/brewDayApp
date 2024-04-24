@@ -15,6 +15,7 @@ public class Turn {
     @JoinColumn(name = "batch_id")
     private Batch batch;
 
+
     public Turn() {
     }
 
@@ -57,6 +58,7 @@ public class Turn {
     public void setBatch(Batch batch) {
         this.batch = batch;
     }
+
 
     @Override
     public String toString() {
