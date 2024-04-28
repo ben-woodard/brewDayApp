@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Start Batch</title>
-    <link rel="stylesheet" type="text/css" href="/css/recipe.css">
+    <link rel="stylesheet" type="text/css" href="/css/user/user-home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-<nav>
+<nav class="navbar-ui">
     <div>
         <a th:href="@{/home/{userId} (userId=${user.id})}">Home</a>
     </div>
@@ -35,7 +35,7 @@
     <hr>
     <div>
         <h3>Turns</h3>
-        <div th:each="turn : ${turnRecipeMap}">
+        <div>
             <table>
                 <tr>
                     <th>Turn Number</th>
@@ -43,14 +43,14 @@
                     <th>Recipe</th>
                     <th>Turn Complete</th>
                 </tr>
-                <tr>
-                    <td th:text="${turn.key.turnNumber}"></td>
+                <tr th:each="turn : ${turns}">
+                    <td th:text="${turn.turnNumber}"></td>
                     <td th:text="${product.productName}"></td>
-                    <td th:text="${turn.value.recipeName}"></td>
-                    <td th:if="${turn.key.turnComplete} == true">Complete</td>
-                    <td th:unless="${turn.key.turnComplete} == true">Not Complete</td>
-                    <td th:if="${turn.key.batch.startDate} == ${currentDate}" th:unless="${turn.key.turnComplete} == true">
-                        <form method="post" th:action="@{/turns/{turnId}/complete (turnId=${turn.key.turnId})}">
+                    <td th:text="${recipe}"></td>
+                    <td th:if="${turn.turnComplete} == true">Complete</td>
+                    <td th:unless="${turn.turnComplete} == true">Not Complete</td>
+                    <td th:if="${batch.startDate} == ${currentDate}" th:unless="${turn.turnComplete} == true">
+                        <form method="post" th:action="@{/turns/{turnId}/complete (turnId=${turn.turnId})}">
                             <input type="submit" value="Complete Turn"/>
                         </form>
                     </td>

@@ -7,7 +7,6 @@ import com.coderscampus.brewDayApp.domain.TurnDTO;
 import com.coderscampus.brewDayApp.repository.TurnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -70,16 +69,22 @@ public class TurnService {
         }
     }
 
-    public Map<Turn, Recipe> createMapOfTurnRecipes(Batch batch) {
-        Map<Turn, Recipe> turnRecipeMap = new LinkedHashMap<>();
-        List<Turn> sortedTurns = batch.getTurns().stream()
+    public List<Turn> getAllOrganizedTurns(Batch batch) {
+        return batch.getTurns().stream()
                 .sorted(Comparator.comparingInt(Turn::getTurnNumber))
                 .collect(Collectors.toList());
-
-        for (Turn turn : sortedTurns) {
-            Recipe recipe = recipeService.findById(turn.getRecipeId());
-            turnRecipeMap.put(turn, recipe);
-        }
-        return turnRecipeMap;
     }
+
+//    public Map<Turn, Recipe> createMapOfTurnRecipes(Batch batch) {
+//        Map<Turn, Recipe> turnRecipeMap = new LinkedHashMap<>();
+//        List<Turn> sortedTurns = batch.getTurns().stream()
+//                .sorted(Comparator.comparingInt(Turn::getTurnNumber))
+//                .collect(Collectors.toList());
+//
+//        for (Turn turn : sortedTurns) {
+//            Recipe recipe = recipeService.findById(turn.getRecipeId());
+//            turnRecipeMap.put(turn, recipe);
+//        }
+//        return turnRecipeMap;
+//    }
 }

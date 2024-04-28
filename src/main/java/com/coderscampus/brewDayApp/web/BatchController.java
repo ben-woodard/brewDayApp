@@ -38,12 +38,12 @@ public class BatchController {
     public String getStartBatch(ModelMap model, @PathVariable Long batchId) {
         Batch batch = batchService.findById(batchId);
         User user = batch.getProduct().getUser();
-        Map<Turn, Recipe> turnRecipes = turnService.createMapOfTurnRecipes(batch);
+        Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
+        model.addAttribute("recipe", recipe);
         model.addAttribute("batch", batch);
         model.addAttribute("user", user);
         model.addAttribute("product", batch.getProduct());
-        model.addAttribute("turnRecipeMap", turnRecipes);
-//        model.addAttribute("ingredientsAndAmounts", recipeService.getMapOfRecipeIngredientsAndAmounts(recipe));
+        model.addAttribute("turns", turnService.getAllOrganizedTurns(batch));
         model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("turnDTO", new TurnDTO());
         return "batch/start-batch";
