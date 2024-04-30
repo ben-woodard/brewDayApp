@@ -39,6 +39,7 @@ public class BatchService {
         User user = userService.findUserById(userId).orElse(null);
         return user.getProducts().stream()
                 .flatMap(product -> product.getBatches().stream())
+
                 .sorted(Comparator.comparing(Batch::getStartDate))
                 .collect(Collectors.toList());
     }

@@ -29,7 +29,7 @@
 <section>
     <h2>Batch Number: [[${batch.batchNumber}]]</h2>
     <button id="modal-editbatch-open">Edit Batch</button>
-    <form method="post" th:action="@{batches/{batchId}/completebatch (batchId=${batch.batchId})}">
+    <form method="post" th:action="@{/batches/{batchId}/completebatch (batchId=${batch.batchId})}">
         <input type="submit" value="Complete Batch"/>
     </form>
     <form method="post" th:action="@{/batches/{batchId}/delete (batchId=${batch.batchId})}">

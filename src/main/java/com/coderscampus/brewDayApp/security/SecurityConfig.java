@@ -67,6 +67,8 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers("/products").authenticated()
+                                .requestMatchers("/turns").authenticated()
+                                .requestMatchers("/home/{userId}").authenticated()
                                 .requestMatchers("/success").authenticated()
                                 .requestMatchers("/home/**").authenticated()
                                 .requestMatchers("/products/**").authenticated()
