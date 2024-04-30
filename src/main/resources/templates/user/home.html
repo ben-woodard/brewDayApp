@@ -41,21 +41,28 @@
             </div>
             <table class="table-ui">
                 <tr class="table-row-ui">
-                    <th>Start Brew</th>
+                    <th>Task</th>
                     <th>Batch No.</th>
                     <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Product</th>
                     <th>Tank Name</th>
                     <th>No. Turns</th>
                 </tr>
                 <tr th:each="batch : ${todaysBatches}">
-                    <td>
-                        <a th:href="@{/batches/{batchId}/startbatch (batchId=${batch.batchId})}">
+                    <td th:if="${batch.startDate} == ${currentDate}">
+                        <a th:href="@{/batches/{batchId} (batchId=${batch.batchId})}">
                             <button>Start Batch</button>
+                        </a>
+                    </td>
+                    <td th:if="${batch.endDate} == ${currentDate}">
+                        <a th:href="@{/batches/{batchId} (batchId=${batch.batchId})}">
+                            <button>Complete Batch</button>
                         </a>
                     </td>
                     <td><a th:text="${batch.batchNumber}"></a></td>
                     <td th:text="${batch.startDate}"></td>
+                    <td th:text="${batch.endDate}"></td>
                     <td th:text="${batch.product.productName}"></td>
                     <td th:text="${batch.tankName}"></td>
                     <td th:text="${batch.numberOfTurns}"></td>
@@ -83,7 +90,7 @@
                     <th>Edit Batch</th>
                 </tr>
                 <tr th:each="batch : ${batches}">
-                    <td><a th:href="@{/batches/{batchId}/startbatch (batchId=${batch.batchId})}"
+                    <td><a th:href="@{/batches/{batchId} (batchId=${batch.batchId})}"
                            th:text="${batch.batchNumber}"></a></td>
                     <td th:text="${batch.startDate}"></td>
                     <td th:text="${batch.endDate}"></td>

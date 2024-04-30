@@ -34,11 +34,12 @@ public class BatchController {
         return "redirect:/home/{userId}";
     }
 
-    @GetMapping("/{batchId}/startbatch")
+    @GetMapping("/{batchId}")
     public String getStartBatch(ModelMap model, @PathVariable Long batchId) {
         Batch batch = batchService.findById(batchId);
         User user = batch.getProduct().getUser();
         Recipe recipe = recipeService.findById(batch.getSelectedRecipeId());
+        Map<Ingredient, Double> batchRecipeIngredients = recipeService.getMapOfRecipeIngredientsAndAmounts(recipe);
         model.addAttribute("recipe", recipe);
         model.addAttribute("batch", batch);
         model.addAttribute("user", user);
@@ -46,13 +47,14 @@ public class BatchController {
         model.addAttribute("turns", turnService.getAllOrganizedTurns(batch));
         model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("turnDTO", new TurnDTO());
+        model.addAttribute("batchRecipeIngredientsAndAmounts", batchRecipeIngredients);
         return "batch/start-batch";
     }
 
     @PostMapping("/{batchId}/update")
     public String postUpdateBatchInformation(@PathVariable Long batchId, @ModelAttribute Batch batch) {
         batchService.updateBatch(batch, batchId);
-        return "redirect:/batches/" + batchId + "/startbatch";
+        return "redirect:/batches/" + batchId;
     }
 
     @PostMapping("/{batchId}/delete")
@@ -67,6 +69,13 @@ public class BatchController {
     public String postCreateTurn(@PathVariable Long batchId, @ModelAttribute TurnDTO turnDTO) {
         Batch batch = batchService.findById(batchId);
         turnService.addBatchTurns(batch, 1, Optional.ofNullable(turnDTO));
-        return "redirect:/batches/" + batch.getBatchId() + "/startbatch";
+        return "redirect:/batches/" + batch.getBatchId();
+    }
+
+    @PostMapping("/{batchId}/completebatch")
+    public String postCompleteBatch(@PathVariable Long batchId) {
+        Batch batch = batchService.findById(batchId);
+        batchService.completeBatch(batch);
+        return "redirect:/batches/" + batch.getBatchId();
     }
 }

@@ -5,7 +5,10 @@ import com.coderscampus.brewDayApp.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +35,11 @@ public class BatchService {
         return batchRepo.save(batch);
     }
 
-    public List<Batch> findAllByUserId(Integer userId) {
+    public List<Batch> findAllBatchesByUserId(Integer userId) {
         User user = userService.findUserById(userId).orElse(null);
         return user.getProducts().stream()
                 .flatMap(product -> product.getBatches().stream())
+                .sorted(Comparator.comparing(Batch::getStartDate))
                 .collect(Collectors.toList());
     }
 
@@ -49,10 +53,11 @@ public class BatchService {
         return batchRepo.save(batch);
     }
 
-    public List<Batch> findTodaysBatches(List<Batch> batches) {
+    public List<Batch> findTodaysTasks(List<Batch> batches) {
         LocalDate date = LocalDate.now();
         return batches.stream()
-                .filter(batch -> (batch.getStartDate()).equals(date))
+                .filter(batch -> (batch.getStartDate()).equals(date) || (batch.getEndDate()).equals(date))
+                .sorted(Comparator.comparing(Batch::getBatchNumber))
                 .collect(Collectors.toList());
     }
 
@@ -104,6 +109,10 @@ public class BatchService {
         batchRepo.delete(batch);
     }
 
+    public void completeBatch(Batch batch) {
+        batch.setBatchComplete(true);
+        batchRepo.save(batch);
+    }
 
 //    private void adjustBatchTurns(Batch batch, Batch savedBatch) {
 //        if (batch.getNumberOfTurns() > savedBatch.getNumberOfTurns()) {

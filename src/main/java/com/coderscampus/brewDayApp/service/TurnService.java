@@ -51,6 +51,12 @@ public class TurnService {
         });
     }
 
+    public List<Turn> getAllOrganizedTurns(Batch batch) {
+        return batch.getTurns().stream()
+                .sorted(Comparator.comparingInt(Turn::getTurnNumber))
+                .collect(Collectors.toList());
+    }
+
     public void addBatchTurns(Batch batch, Integer batchTurns, Optional<TurnDTO> turnDTO) {
         int i = 0;
         while (i < batchTurns) {
@@ -69,22 +75,4 @@ public class TurnService {
         }
     }
 
-    public List<Turn> getAllOrganizedTurns(Batch batch) {
-        return batch.getTurns().stream()
-                .sorted(Comparator.comparingInt(Turn::getTurnNumber))
-                .collect(Collectors.toList());
-    }
-
-//    public Map<Turn, Recipe> createMapOfTurnRecipes(Batch batch) {
-//        Map<Turn, Recipe> turnRecipeMap = new LinkedHashMap<>();
-//        List<Turn> sortedTurns = batch.getTurns().stream()
-//                .sorted(Comparator.comparingInt(Turn::getTurnNumber))
-//                .collect(Collectors.toList());
-//
-//        for (Turn turn : sortedTurns) {
-//            Recipe recipe = recipeService.findById(turn.getRecipeId());
-//            turnRecipeMap.put(turn, recipe);
-//        }
-//        return turnRecipeMap;
-//    }
 }

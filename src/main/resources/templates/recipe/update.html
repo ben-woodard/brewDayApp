@@ -39,7 +39,8 @@
         </div>
         <div>
             <span>Product:</span>
-            <span><a th:href="@{/products/{userId}/{productId}(userId=${user.id}, productId=${product.productId})}" th:text="${product.productName}"></a></span>
+            <span><a th:href="@{/products/{userId}/{productId}(userId=${user.id}, productId=${product.productId})}"
+                     th:text="${product.productName}"></a></span>
         </div>
         <div>
             <input type="submit" value="Update Recipe Information"/>

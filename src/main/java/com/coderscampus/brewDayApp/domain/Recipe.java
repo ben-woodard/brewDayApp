@@ -1,6 +1,5 @@
 package com.coderscampus.brewDayApp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -40,6 +40,7 @@ table {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 .table-ui{
