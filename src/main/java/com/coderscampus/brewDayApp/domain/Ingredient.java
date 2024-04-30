@@ -2,9 +2,7 @@ package com.coderscampus.brewDayApp.domain;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -26,17 +24,19 @@ public class Ingredient {
     @Enumerated(EnumType.STRING)
     @Column(name = "unitOfMeasurement")
     private unitOfMeasurement unitOfMeasurement;
-    private enum ingredientType {
+    public enum ingredientType {
         MALT,
         HOP,
         ADJUNCT,
         EXTRACT,
-        SALT
+        SALT,
+        YEAST
     }
 
-    private enum unitOfMeasurement {
+    public enum unitOfMeasurement {
         lBS,
-        OZ
+        OZ,
+        EACH
     }
 
     public Ingredient() {
@@ -98,6 +98,7 @@ public class Ingredient {
     public void setUser(User user) {
         this.user = user;
     }
+
 
     @Override
     public String toString() {

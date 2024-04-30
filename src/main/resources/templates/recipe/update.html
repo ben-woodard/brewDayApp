@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0fe1471627.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav>
@@ -27,41 +28,57 @@
     </form>
 </nav>
 <section>
-    <h1 th:text="${recipe.recipeName}"></h1>
-    <form method="post" th:action="@{/recipes/{productId}/{recipeId}/delete
+
+    <div>
+        <h1 th:text="${recipe.recipeName}"></h1>
+        <span>Product:</span>
+        <span><a th:href="@{/products/{userId}/{productId}(userId=${user.id}, productId=${product.productId})}"
+                 th:text="${product.productName}"></a></span>
+        <a th:href="@{/products/{userId}/{productId} (userId=${user.id} ,productId=${product.productId})}">
+            <button>Back to Product</button>
+        </a>
+        <form method="post" th:action="@{/recipes/{productId}/{recipeId}/delete
               (productId=${product.productId}, recipeId=${recipe.recipeId})}">
-        <input type="submit" value="Delete Recipe">
-    </form>
+            <input type="submit" value="Delete Recipe">
+        </form>
+    </div>
+</section>
+
+<section>
+    <hr>
     <form method="post" action="">
         <div>
             <label>Recipe Name:</label>
             <input type="text" th:field="${recipe.recipeName}">
         </div>
         <div>
-            <span>Product:</span>
-            <span><a th:href="@{/products/{userId}/{productId}(userId=${user.id}, productId=${product.productId})}"
-                     th:text="${product.productName}"></a></span>
-        </div>
-        <div>
             <input type="submit" value="Update Recipe Information"/>
         </div>
-        <h2>Ingredients</h2>
-        <button type="button" id="modal-add-open">Add Ingredient</button>
-        <table>
-            <tr>
-                <th>Ingredient</th>
-                <th>Type</th>
-                <th>Amount</th>
-            </tr>
-            <tr th:each="entry : ${ingredientAmountMap}">
-                <td><a th:text="${entry.key.ingredientName}"
-                       th:href="@{/inventory/{userId}/{ingredientId}(userId=${user.id}, ingredientId=${entry.getKey().ingredientId})}"></a>
-                </td>
-                <td th:text="${entry.key.ingredientType}"></td>
-                <td th:text="${entry.value}"></td>
-            </tr>
-        </table>
     </form>
+    <h2>Ingredients</h2>
+    <button type="button" id="modal-add-open">Add Ingredient</button>
+    <table>
+        <tr>
+            <th>Ingredient</th>
+            <th>Type</th>
+            <th>Amount</th>
+        </tr>
+        <tr th:each="entry : ${ingredientAmountMap}">
+            <td><a th:text="${entry.key.ingredientName}"
+                   th:href="@{/inventory/{userId}/{ingredientId}(userId=${user.id}, ingredientId=${entry.getKey().ingredientId})}"></a>
+            </td>
+            <td th:text="${entry.key.ingredientType}"></td>
+            <td th:text="${entry.value}"></td>
+            <td>
+                <form method="post" th:action="@{/recipes/{recipeId}/{ingredientId}/deleteingredient (recipeId=${recipe.recipeId},
+                ingredientId=${entry.getKey().ingredientId})}">
+                    <button type="submit">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </table>
 </section>
 <!--Modals Section-->
 <section>

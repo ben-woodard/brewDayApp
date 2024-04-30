@@ -26,7 +26,7 @@ public class IngredientController {
     public String getUserInventoryHome(@PathVariable Integer userId, ModelMap model) {
         User user = userService.findUserById(userId).orElse(null);
         model.addAttribute("ingredient", new Ingredient());
-        model.addAttribute("ingredientsList", user.getIngredients());
+        model.addAttribute("ingredientsList", ingredientService.findAllIngredientsByUserSorted(user));
         model.addAttribute("user", user);
         return "ingredient/home";
     }

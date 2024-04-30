@@ -33,7 +33,7 @@
         <form method="post" th:action="@{/products/{productId}/delete (productId=${product.productId})}">
             <button type="submit">Delete Product</button>
         </form>
-        <form method="post" th:action="@{'/products/' + ${product.productId} + '/setdefaultrecipe'}">
+        <form method="post" th:action="@{'/products/' + ${product.productId} + '/setdefaultrecipe'}" th:if="${#lists.size(product.recipes) > 0}">
             <div>
                 <label>Select Default Recipe:</label>
                 <select th:field="*{recipeDTO.defaultRecipeId}" required>

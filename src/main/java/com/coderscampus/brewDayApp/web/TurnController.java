@@ -30,7 +30,7 @@ public class TurnController {
         turnService.completeTurn(turn);
         batchService.removeIngredientsFromInventory(turn);
         batchService.checkForAllTurnsComplete(batch);
-        return "redirect:/batches/" + batch.getBatchId() + "/startbatch";
+        return "redirect:/batches/" + batch.getBatchId();
     }
 
     @PostMapping("/{turnId}/delete")
@@ -38,6 +38,6 @@ public class TurnController {
         Turn turn = turnService.findById(turnId);
         Long batchId = turn.getBatch().getBatchId();
         turnService.deleteTurn(turn);
-        return "redirect:/batches/" + batchId + "/startbatch";
+        return "redirect:/batches/" + batchId;
     }
 }

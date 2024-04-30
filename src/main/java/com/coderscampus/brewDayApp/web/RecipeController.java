@@ -1,6 +1,7 @@
 package com.coderscampus.brewDayApp.web;
 
 import com.coderscampus.brewDayApp.domain.*;
+import com.coderscampus.brewDayApp.service.IngredientService;
 import com.coderscampus.brewDayApp.service.ProductService;
 import com.coderscampus.brewDayApp.service.RecipeService;
 import com.coderscampus.brewDayApp.service.UserServiceImpl;
@@ -17,13 +18,15 @@ public class RecipeController {
     private final UserServiceImpl userService;
     private final ProductService productService;
     private final RecipeService recipeService;
+    private final IngredientService ingredientService;
 
 
     @Autowired
-    public RecipeController(UserServiceImpl userService, ProductService productService, RecipeService recipeService) {
+    public RecipeController(UserServiceImpl userService, ProductService productService, RecipeService recipeService, IngredientService ingredientService) {
         this.userService = userService;
         this.productService = productService;
         this.recipeService = recipeService;
+        this.ingredientService = ingredientService;
     }
 
     @GetMapping("/{userId}/home")
@@ -39,13 +42,15 @@ public class RecipeController {
 
     @PostMapping("/create")
     public String createNewRecipeFromRecipeHome(@ModelAttribute RecipeDTO recipeDTO, @ModelAttribute Recipe recipe) {
-        Recipe savedRecipe = recipeService.saveRecipeProductRelationship(recipe, recipeDTO.getProductId());
+        Product product = productService.findById(recipeDTO.getProductId());
+        Recipe savedRecipe = recipeService.saveRecipeProductRelationship(recipe, product);
         return "redirect:/recipes/" + recipe.getProduct().getProductId() + "/" + savedRecipe.getRecipeId();
     }
 
     @PostMapping("/{productId}/create")
     public String createNewRecipeFromRecipeCreate(@ModelAttribute Recipe recipe, @PathVariable Long productId) {
-        Recipe savedRecipe = recipeService.saveRecipeProductRelationship(recipe, productId);
+        Product product = productService.findById(productId);
+        Recipe savedRecipe = recipeService.saveRecipeProductRelationship(recipe, product);
         return "redirect:/recipes/{productId}/" + savedRecipe.getRecipeId();
     }
 
@@ -82,5 +87,12 @@ public class RecipeController {
         recipeService.delete(recipeId);
         return "redirect:/products/" + product.getUser().getId() + "/{productId}";
     }
+
+//    @PostMapping("/{recipeId}/{ingredientId}/deleteingredient")
+//    public String postDeleteIngredientFromRecipe(@PathVariable Long recipeId, @PathVariable Long ingredientId) {
+//        Recipe recipe = recipeService.findById(recipeId);
+//        Ingredient ingredient = ingredientService.findById(ingredientId);
+//        recipeService.removeIngredientFromRecipe(recipe, ingredient);
+//    }
 
 }

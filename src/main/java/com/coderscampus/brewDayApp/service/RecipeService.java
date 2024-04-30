@@ -30,8 +30,7 @@ public class RecipeService {
         return recipeRepo.findById(recipeId).orElse(null);
     }
 
-    public Recipe saveRecipeProductRelationship(Recipe recipe, Long productId) {
-        Product product = productService.findById(productId);
+    public Recipe saveRecipeProductRelationship(Recipe recipe, Product product) {
         product.getRecipes().add(recipe);
         recipe.setProduct(product);
         return save(recipe);

@@ -6,6 +6,10 @@ import com.coderscampus.brewDayApp.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class IngredientService {
 
@@ -40,16 +44,10 @@ public class IngredientService {
         ingredientRepo.delete(ingredient);
     }
 
-    //    public List<Ingredient> findAll() {
-//        return ingredientRepo.findAll();
-//    }
-
-    //    public Ingredient updateIngredientInfo(Ingredient ingredient, Integer userId) {
-//        Ingredient savedIngredient = findById(ingredient.getIngredientId());
-//        User user = userService.findUserById(userId).orElse(null);
-//        savedIngredient.setUser(user);
-//        user.getIngredients().add(savedIngredient);
-//        return save(savedIngredient);
-//    }
+    public List<Ingredient> findAllIngredientsByUserSorted(User user) {
+        return user.getIngredients().stream()
+                .sorted(Comparator.comparing(ingredient -> ingredient.getIngredientName()))
+                .collect(Collectors.toList());
+    }
 
 }
