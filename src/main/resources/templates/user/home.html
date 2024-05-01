@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0fe1471627.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav class="navbar-ui">
@@ -34,7 +35,6 @@
 <h1 th:text="${user.companyName}"></h1>
 <section>
     <div class="table-container">
-
         <div th:if="${#lists.size(todaysBatches) > 0}" class="table-container-ui">
             <div>
                 <h2>Today's Tasks</h2>
@@ -70,6 +70,29 @@
                 </tr>
             </table>
         </div>
+        <div class="table-container">
+            <div th:if="${#lists.size(thresholdIngredients) > 0}" class="table-container-ui">
+                <div>
+                    <div>
+                        <h2>Low Inventory Ingredients</h2>
+                    </div>
+                    <table class="table-ui">
+                        <tr class="table-row-ui">
+                            <th>Ingredient Name</th>
+                            <th>Ingredient Type</th>
+                            <th>Amount In Stock</th>
+                            <th>Units</th>
+                        </tr>
+                        <tr th:each="ingred : ${thresholdIngredients}">
+                            <td th:text="${ingred.ingredientName}"></td>
+                            <td th:text="${ingred.ingredientType}"></td>
+                            <td th:text="${ingred.amountInStock}"></td>
+                            <td th:text="${ingred.unitOfMeasurement}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div>
@@ -90,13 +113,13 @@
                     <th>Edit Batch</th>
                 </tr>
                 <tr th:each="batch : ${batches}">
-                    <td><a th:href="@{/batches/{batchId} (batchId=${batch.batchId})}"
-                           th:text="${batch.batchNumber}"></a></td>
+                    <td th:text="${batch.batchNumber}"></td>
                     <td th:text="${batch.startDate}"></td>
                     <td th:text="${batch.endDate}"></td>
                     <td th:text="${batch.product.productName}"></td>
                     <td th:text="${batch.tankName}"></td>
                     <td th:text="${batch.numberOfTurns}"></td>
+                    <td><a th:href="@{/batches/{batchId} (batchId=${batch.batchId})}"><i class="fa-solid fa-square-pen"></i></a></td>
                 </tr>
             </table>
         </div>
@@ -110,7 +133,7 @@
             <form method="post" th:action="@{/batches/{userId}/create (userId=${user.id})}">
                 <div>
                     <label>Batch Number:</label>
-                    <input type="number" th:field="${batch.batchNumber}">
+                    <input type="number" th:field="${batch.batchNumber}" required>
                 </div>
                 <div>
                     <label>Batch Start Date:</label>

@@ -50,4 +50,9 @@ public class IngredientService {
                 .collect(Collectors.toList());
     }
 
+    public List<Ingredient> findIngredientsBelowThresholdByUser(User user) {
+        return user.getIngredients().stream()
+                .filter(ingredient -> (ingredient.getAmountInStock()) <= (ingredient.getOrderingThreshold()))
+                .collect(Collectors.toList());
+    }
 }

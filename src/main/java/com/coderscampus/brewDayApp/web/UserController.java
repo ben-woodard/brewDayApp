@@ -1,11 +1,8 @@
 package com.coderscampus.brewDayApp.web;
 
-import com.coderscampus.brewDayApp.domain.Batch;
-import com.coderscampus.brewDayApp.domain.BatchDTO;
-import com.coderscampus.brewDayApp.domain.Product;
-import com.coderscampus.brewDayApp.domain.User;
+import com.coderscampus.brewDayApp.domain.*;
 import com.coderscampus.brewDayApp.service.BatchService;
-import com.coderscampus.brewDayApp.service.ProductService;
+import com.coderscampus.brewDayApp.service.IngredientService;
 import com.coderscampus.brewDayApp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +17,14 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceImpl userService;
-    private final ProductService productService;
     private final BatchService batchService;
+    private final IngredientService ingredientService;
 
     @Autowired
-    public UserController(UserServiceImpl userService, ProductService productService, BatchService batchService) {
+    public UserController(UserServiceImpl userService, BatchService batchService, IngredientService ingredientService) {
         this.userService = userService;
-        this.productService = productService;
         this.batchService = batchService;
+        this.ingredientService = ingredientService;
     }
 
     @GetMapping("/home/{userId}")
@@ -46,6 +43,7 @@ public class UserController {
         model.addAttribute("products", products);
         model.addAttribute("user", user);
         model.addAttribute("currentDate", LocalDate.now());
+        model.addAttribute("thresholdIngredients", ingredientService.findIngredientsBelowThresholdByUser(user));
         return "user/home";
     }
 }

@@ -43,7 +43,7 @@
                 <tr>
                     <th>Turn Number</th>
                     <th>Product</th>
-                    <th>Turn Complete</th>
+                    <th th:if="${batch.turnsComplete == false}">Turn Complete</th>
                 </tr>
                 <tr th:each="turn : ${turns}">
                     <td th:text="${turn.turnNumber}"></td>

@@ -75,6 +75,10 @@
                     <input type="number" th:field="${ingredient.amountInStock}">
                 </div>
                 <div>
+                    <label>Ordering Threshold:</label>
+                    <input type="number" th:field="${ingredient.orderingThreshold}">
+                </div>
+                <div>
                     <label>Unit of Measurement:</label>
                     <select th:field="*{ingredient.unitOfMeasurement}">
                         <option th:each="unit : ${T(com.coderscampus.brewDayApp.domain.Ingredient.unitOfMeasurement).values()}"

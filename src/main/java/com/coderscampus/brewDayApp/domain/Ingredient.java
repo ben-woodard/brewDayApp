@@ -1,7 +1,6 @@
 package com.coderscampus.brewDayApp.domain;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,7 @@ public class Ingredient {
     @ManyToMany(mappedBy = "ingredients", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Recipe> recipes = new ArrayList<>();
     private Double amountInStock;
+    private Double orderingThreshold;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -90,7 +90,6 @@ public class Ingredient {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 
-
     public User getUser() {
         return user;
     }
@@ -99,6 +98,13 @@ public class Ingredient {
         this.user = user;
     }
 
+    public Double getOrderingThreshold() {
+        return orderingThreshold;
+    }
+
+    public void setOrderingThreshold(Double warningThreshold) {
+        this.orderingThreshold = warningThreshold;
+    }
 
     @Override
     public String toString() {
