@@ -36,7 +36,7 @@ public class UserController {
         if(user == null) {
             return "redirect:/signin";
         }
-        List<Batch> batches = batchService.findAllBatchesByUserId(userId);
+        List<Batch> batches = batchService.findAllIncompleteBatchesByUserId(userId);
         List<Batch> todaysBatches = batchService.findTodaysTasks(batches);
         List<Product> products = user.getProducts();
         model.addAttribute("batch", new Batch());

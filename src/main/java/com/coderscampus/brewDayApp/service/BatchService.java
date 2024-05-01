@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,11 +33,11 @@ public class BatchService {
         return batchRepo.save(batch);
     }
 
-    public List<Batch> findAllBatchesByUserId(Integer userId) {
+    public List<Batch> findAllIncompleteBatchesByUserId(Integer userId) {
         User user = userService.findUserById(userId).orElse(null);
         return user.getProducts().stream()
                 .flatMap(product -> product.getBatches().stream())
-
+                .filter(batch -> batch.getBatchComplete() == false)
                 .sorted(Comparator.comparing(Batch::getStartDate))
                 .collect(Collectors.toList());
     }
@@ -115,13 +113,4 @@ public class BatchService {
         batchRepo.save(batch);
     }
 
-//    private void adjustBatchTurns(Batch batch, Batch savedBatch) {
-//        if (batch.getNumberOfTurns() > savedBatch.getNumberOfTurns()) {
-//            int turnDifference = batch.getNumberOfTurns() - savedBatch.getNumberOfTurns();
-//            createBatchTurns(batch, turnDifference);
-//        } else {
-//            int turnDifference = savedBatch.getNumberOfTurns() - batch.getNumberOfTurns();
-//            turnService.deleteTurnsFromBatch(batch, turnDifference);
-//        }
-//    }
 }

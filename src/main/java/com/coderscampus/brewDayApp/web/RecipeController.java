@@ -88,11 +88,13 @@ public class RecipeController {
         return "redirect:/products/" + product.getUser().getId() + "/{productId}";
     }
 
-//    @PostMapping("/{recipeId}/{ingredientId}/deleteingredient")
-//    public String postDeleteIngredientFromRecipe(@PathVariable Long recipeId, @PathVariable Long ingredientId) {
-//        Recipe recipe = recipeService.findById(recipeId);
-//        Ingredient ingredient = ingredientService.findById(ingredientId);
-//        recipeService.removeIngredientFromRecipe(recipe, ingredient);
-//    }
+    @PostMapping("/{recipeId}/{ingredientId}/deleteingredient")
+    public String postDeleteIngredientFromRecipe(@PathVariable Long recipeId, @PathVariable Long ingredientId) {
+        Recipe recipe = recipeService.findById(recipeId);
+        Ingredient ingredient = ingredientService.findById(ingredientId);
+        Product product = recipe.getProduct();
+        recipeService.removeIngredientFromRecipe(recipe, ingredient);
+        return "redirect:/recipes/" + product.getProductId()+ "/" + recipe.getRecipeId();
+    }
 
 }

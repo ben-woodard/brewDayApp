@@ -62,6 +62,7 @@
             <th>Ingredient</th>
             <th>Type</th>
             <th>Amount</th>
+            <th>Units</th>
         </tr>
         <tr th:each="entry : ${ingredientAmountMap}">
             <td><a th:text="${entry.key.ingredientName}"
@@ -69,6 +70,7 @@
             </td>
             <td th:text="${entry.key.ingredientType}"></td>
             <td th:text="${entry.value}"></td>
+            <td th:text="${entry.key.unitOfMeasurement}"></td>
             <td>
                 <form method="post" th:action="@{/recipes/{recipeId}/{ingredientId}/deleteingredient (recipeId=${recipe.recipeId},
                 ingredientId=${entry.getKey().ingredientId})}">

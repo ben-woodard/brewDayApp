@@ -4,7 +4,6 @@ import com.coderscampus.brewDayApp.domain.*;
 import com.coderscampus.brewDayApp.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,9 +30,14 @@ public class RecipeService {
     }
 
     public Recipe saveRecipeProductRelationship(Recipe recipe, Product product) {
-        product.getRecipes().add(recipe);
-        recipe.setProduct(product);
-        return save(recipe);
+        Recipe savedRecipe = recipeRepo.save(recipe);
+        product.getRecipes().add(savedRecipe);
+        if(product.getDefaultRecipeId() == null) {
+            product.setDefaultRecipeId(savedRecipe.getRecipeId());
+        }
+        savedRecipe.setProduct(product);
+        productService.save(product);
+        return savedRecipe;
     }
 
     public Recipe updateRecipeName(Recipe recipe, Long recipeId) {
@@ -49,15 +53,23 @@ public class RecipeService {
         recipe.getIngredients().add(ingredient);
         recipe.getIngredientsToRemove().put(ingredient.getIngredientId(), recipeDTO.getAmount());
         return recipeRepo.save(recipe);
-
     }
 
     public Map<Ingredient, Double> getMapOfRecipeIngredientsAndAmounts(Recipe recipe) {
-        return recipe.getIngredientsToRemove().entrySet().stream()
+        Map<Ingredient, Double> ingredientAmounts = recipe.getIngredientsToRemove().entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> ingredientService.findById(entry.getKey()),
                         Map.Entry::getValue
                 ));
+
+        List<Map.Entry<Ingredient, Double>> sortedEntries = new ArrayList<>(ingredientAmounts.entrySet());
+        sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        Map<Ingredient, Double> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<Ingredient, Double> entry : sortedEntries) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
     }
 
     public List<Recipe> findAllRecipesByUser(User user) {
@@ -70,7 +82,18 @@ public class RecipeService {
         Recipe recipe = findById(recipeId);
         Product product = recipe.getProduct();
         product.getRecipes().remove(recipe);
+        if(product.getDefaultRecipeId() == recipeId) {
+            product.setDefaultRecipeId(null);
+        }
         recipe.getIngredients().removeAll(recipe.getIngredients());
         recipeRepo.delete(recipe);
+    }
+
+    public void removeIngredientFromRecipe(Recipe recipe, Ingredient ingredient) {
+        recipe.getIngredients().remove(ingredient);
+        recipe.getIngredientsToRemove().remove(ingredient.getIngredientId());
+        ingredient.getRecipes().remove(recipe);
+        ingredientService.save(ingredient);
+        recipeRepo.save(recipe);
     }
 }
