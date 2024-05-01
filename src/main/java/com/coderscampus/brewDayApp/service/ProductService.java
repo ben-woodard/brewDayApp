@@ -5,7 +5,9 @@ import com.coderscampus.brewDayApp.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -52,5 +54,12 @@ public class ProductService {
     public void setDefaultRecipe(Product savedProduct, RecipeDTO recipeDTO) {
         savedProduct.setDefaultRecipeId(recipeDTO.getDefaultRecipeId());
         productRepo.save(savedProduct);
+    }
+
+    public List<Batch> findUpcomingBatches(Product product){
+        return product.getBatches().stream()
+                .sorted(Comparator.comparing(b -> b.getStartDate()))
+                .filter(batch -> batch.getBatchComplete() == false)
+                .collect(Collectors.toList());
     }
 }

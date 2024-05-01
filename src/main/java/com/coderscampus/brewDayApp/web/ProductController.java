@@ -53,6 +53,7 @@ public class ProductController {
         model.addAttribute("product", product);
         model.addAttribute("user", user);
         model.addAttribute("recipeDTO", new RecipeDTO());
+        model.addAttribute("listUpcomingBatches", productService.findUpcomingBatches(product));
         if (product.getDefaultRecipeId() != null) {
             Recipe defaultRecipe = recipeService.findById(product.getDefaultRecipeId());
             model.addAttribute("defaultRecipe", defaultRecipe);
