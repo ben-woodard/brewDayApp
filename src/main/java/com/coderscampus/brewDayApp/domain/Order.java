@@ -1,12 +1,15 @@
 package com.coderscampus.brewDayApp.domain;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Entity
+@Table(name = "company_orders")
 public class Order {
 
     @Id
@@ -14,6 +17,7 @@ public class Order {
     private Long orderId;
     private String companyName;
     private Boolean orderReceived;
+    private LocalDate orderReceivedDate;
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "order_ingredient",
             joinColumns = @JoinColumn(name = "order_id"),
@@ -47,6 +51,14 @@ public class Order {
 
     public void setOrderReceived(Boolean orderReceived) {
         this.orderReceived = orderReceived;
+    }
+
+    public LocalDate getOrderReceivedDate() {
+        return orderReceivedDate;
+    }
+
+    public void setOrderReceivedDate(LocalDate orderReceivedDate) {
+        this.orderReceivedDate = orderReceivedDate;
     }
 
     public List<Ingredient> getIngredients() {
