@@ -28,6 +28,9 @@ public class Order {
     @MapKeyColumn(name = "ingredient_id")
     @Column(name = "amount_to_add")
     private Map<Long, Double> ingredientsToAdd = new HashMap<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Long getOrderId() {
         return orderId;
@@ -75,6 +78,14 @@ public class Order {
 
     public void setIngredientsToAdd(Map<Long, Double> ingredientsToAdd) {
         this.ingredientsToAdd = ingredientsToAdd;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

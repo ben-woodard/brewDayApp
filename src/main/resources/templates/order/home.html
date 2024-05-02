@@ -3,8 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Orders</title>
+    <link rel="stylesheet" type="text/css" href="/css/order.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0fe1471627.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Welcome to Orders Home</h1>
+<h1>Orders</h1>
+<button id="create-adjust-open">Create New Order</button>
+<div>
+    <table th:if="${#lists.size(openOrders) > 0}">
+        <div>
+            <h2>Open Orders</h2>
+        </div>
+        <tr>
+            <th>Order Number</th>
+            <th>Company Name</th>
+            <th>Order Received Date:</th>
+            <th>Edit Order</th>
+        </tr>
+        <tr th:each="order : ${openOrders}">
+            <td th:text="${order.orderId}"></td>
+            <td th:text="${order.companyName}"></td>
+            <td th:text="${order.orderReceivedDate}"></td>
+            <td><a th:href="@{/orders/{userId}/{orderId} (userId=${user.id}, orderId=${order.orderId})}"><i class="fa-solid fa-square-pen"></i></a></td>
+        </tr>
+    </table>
+</div>
+
+<!--Create Order Modal-->
+<div class="create-modal-container" id="create-modal-container">
+    <div class="create-modal">
+        <h2>Create New Order</h2>
+        <form method="post" th:action="@{/orders/{userId}/create (userId=${user.id})}">
+            <div>
+                <label>Company Name:</label>
+                <input type="text" th:field="${newOrder.companyName}">
+            </div>
+            <div>
+                <label>Received Date:</label>
+                <input type="date" th:field="${newOrder.orderReceivedDate}">
+            </div>
+            <div>
+                <button type="submit" id="create-modal-close">Add Batch To Schedule</button>
+            </div>
+        </form>
+        <button id="close-create-modal">Cancel</button>
+    </div>
+</div>
+<script src="/js/inventory.js"></script>
 </body>
 </html>

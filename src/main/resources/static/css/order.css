@@ -1,0 +1,31 @@
+body {
+    font-family: 'Roboto', 'sans-serif';
+}
+
+.create-modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    opacity:0;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    transition: opacity 0.3s ease;
+}
+
+.create-modal-container.show {
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.create-modal {
+    background-color: red;
+    width: 100%;
+    border-radius: 5px;
+    padding: 30px 50px;
+    width:600px;
+    max-width: 100%;
+    text-align: center;
+}

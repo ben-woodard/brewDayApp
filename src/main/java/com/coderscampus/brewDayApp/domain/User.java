@@ -28,6 +28,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.MERGE})
     @JsonIgnoreProperties("user")
     private List<Ingredient> ingredients = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
+    private List<Order> orders = new ArrayList<>();
 
     @Override
     public Collection<Authority> getAuthorities() {
@@ -167,5 +170,13 @@ public class User implements UserDetails {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
